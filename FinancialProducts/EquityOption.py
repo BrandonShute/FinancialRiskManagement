@@ -96,7 +96,7 @@ class EquityOption(Option):
 
         # Get the delta and gamma of the option
         if ExerciseType == 'European':
-            price_info = valEng.bsm_value(S0, K, T, r, sigma, q, option)
+            price_info = valEng.black_scholes_value(S0, K, T, r, sigma, q, option)
         elif ExerciseType == 'American':
             american = True
             N = 100
@@ -151,7 +151,7 @@ class EquityOption(Option):
 
         # calculate price
         if ExerciseType == 'European':
-            price_info = valEng.bsm_value(S0, K, T, r, sigma, q, option)
+            price_info = valEng.black_scholes_value(S0, K, T, r, sigma, q, option)
             price = price_info.get('value')
         if ExerciseType == 'American':
             american = True
