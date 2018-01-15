@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/Database" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/FinancialProducts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/FinancialRiskManagment" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MarketData" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/FinancialModels" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/RiskManagement" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ScenarioAnalysis" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ValuationEngine" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.6" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="R Skeletons" level="application" />
+    <orderEntry type="library" name="R User Library" level="project" />
+  </component>
+  <component name="TestRunnerService">
+    <option name="PROJECT_TEST_RUNNER" value="Unittests" />
+  </component>
+</module>
