@@ -142,9 +142,10 @@ class Bond(Product):
     # -------------------------------------------------------------------------
     # Object Definition
     # -------------------------------------------------------------------------
-    def __init__(self, ID, currency, start_date, maturity_date, face_value, coupon_type, coupon_rate, coupon_freq,
-                 issuer, ratings, tier, day_count, first_coupon_date=None, industry=None, sector=None, subsector=None,
-                 country=None, rf_ID=None, val_spec=None):
+    def __init__(self, ID, currency, start_date, maturity_date, face_value,
+                 coupon_type, coupon_rate, coupon_freq, issuer, ratings, tier,
+                 day_count, first_coupon_date=None, industry=None, sector=None,
+                 subsector=None, country=None, rf_ID=None, val_spec=None):
         super(Bond, self).__init__(ID, currency, country)
         self.start_date = start_date
         self.maturity_date = maturity_date
@@ -172,7 +173,9 @@ class Bond(Product):
             if first_coupon_month > 12:
                 first_coupon_month -= 12
                 first_coupon_year += 1
-            self.first_coupon_date = dt.datetime(first_coupon_year, first_coupon_month, start_date.day, 0, 0)
+            self.first_coupon_date = dt.datetime(first_coupon_year,
+                                                 first_coupon_month,
+                                                 start_date.day, 0, 0)
 
         # Set non-given aggregation parameters to 'N/A' if not given
         if industry != None:
@@ -329,7 +332,8 @@ class Bond(Product):
         constants.add('IdiosyncraticSpread-' + self.ID)
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Return a dictionary of the risk factors
@@ -351,7 +355,8 @@ class Bond(Product):
         matrices.add('TransitionMatrix')
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Return a dictionary of the risk factors
@@ -381,27 +386,34 @@ class Bond(Product):
         if rating == 'AAA':
             credit_spreads_vector = pd.DataFrame([[0, 0]], columns=[0.25, 30])
         else:
-            credit_spreads_vector = pd.DataFrame(np.array([credit_spread_matrix.loc[rating]]),
-                                                 columns=list(credit_spread_matrix))
+            credit_spreads_vector = pd.DataFrame(
+                np.array([credit_spread_matrix.loc[rating]]),
+                columns=list(credit_spread_matrix))
 
         string3 = 'IdiosyncraticSpread-' + ID
         idiosyncratic_spread = market_environment.get_constant(string3)
 
         # want to layer spread curve over risk-free curve, hence need to ensure they have same terms.
         # Use interpolation function to ensure same terms.
-        payment_timing = [0.25, 0.5, 1, 2, 3, 4, 5, 7, 10, 15, 20, 25, 30]  # represents Key Rates
+        payment_timing = [0.25, 0.5, 1, 2, 3, 4, 5, 7, 10, 15, 20, 25,
+                          30]  # represents Key Rates
 
-        risk_free_curve_interp = finModels.interpolated_yield_curve(risk_free_curve, payment_timing)
-        risk_free_curve_interp = pd.DataFrame(np.array([risk_free_curve_interp]), columns=payment_timing)
+        risk_free_curve_interp = finModels.interpolated_yield_curve(
+            risk_free_curve, payment_timing)
+        risk_free_curve_interp = pd.DataFrame(
+            np.array([risk_free_curve_interp]), columns=payment_timing)
 
-        credit_spreads_vector_interp = finModels.interpolated_yield_curve(credit_spreads_vector, payment_timing)
-        credit_spreads_vector_interp = pd.DataFrame(np.array([credit_spreads_vector_interp]), columns=payment_timing)
+        credit_spreads_vector_interp = finModels.interpolated_yield_curve(
+            credit_spreads_vector, payment_timing)
+        credit_spreads_vector_interp = pd.DataFrame(
+            np.array([credit_spreads_vector_interp]), columns=payment_timing)
 
         yieldCurveInput = risk_free_curve_interp + credit_spreads_vector_interp + idiosyncratic_spread
 
         # calculate price
-        price = valEng.bond_pricing_function(FirstCouponDate, CouponFrequency, MaturityDate, ValDate, CouponRate, Face,
-                                             yieldCurveInput)
+        price = valEng.bond_pricing_function(FirstCouponDate, CouponFrequency,
+                                             MaturityDate, ValDate, CouponRate,
+                                             Face, yieldCurveInput)
         return price
 
     # -------------------------------------------------------------------------
@@ -425,7 +437,8 @@ class Bond(Product):
             print(agency + ':\t\t\t\t' + (self.ratings).get(agency))
         print('Tier:\t\t\t\t' + self.tier)
         print('Day Count:\t\t\t' + self.day_count)
-        print('First Coupon Date:\t\t' + (self.first_coupon_date).strftime(date_str))
+        print('First Coupon Date:\t\t' + (self.first_coupon_date).strftime(
+            date_str))
         print('Industry:\t\t\t' + self.industry)
         print('Sector:\t\t\t\t' + self.sector)
         print('Subsector:\t\t\t' + self.subsector)
@@ -443,7 +456,8 @@ if __name__ == '__main__':
     ID = 'BondTesting'
     currency = 'USD'
     start_date = dt.datetime.today()
-    maturity_date = dt.datetime(start_date.year + 1, start_date.month, start_date.day, 0, 0)
+    maturity_date = dt.datetime(start_date.year + 1, start_date.month,
+                                start_date.day, 0, 0)
     face_value = 100
     coupon_type = 'Fixed'
     coupon_rate = 5
@@ -457,12 +471,15 @@ if __name__ == '__main__':
     if first_coupon_month > 12:
         first_coupon_month -= 12
         first_coupon_year += 1
-    first_coupon_date = dt.datetime(first_coupon_year, first_coupon_month, start_date.day, 0, 0)
+    first_coupon_date = dt.datetime(first_coupon_year, first_coupon_month,
+                                    start_date.day, 0, 0)
     industry = 'technology'
     sector = 'information technology'
     subsector = 'information technology'
     country = 'Canada'
     rf_ID = 'Govt'
-    bond_test = Bond(ID, currency, start_date, maturity_date, face_value, coupon_type, coupon_rate, coupon_freq, issuer,
-                     ratings, tier, day_count, first_coupon_date, industry, sector, subsector, country, rf_ID)
+    bond_test = Bond(ID, currency, start_date, maturity_date, face_value,
+                     coupon_type, coupon_rate, coupon_freq, issuer, ratings,
+                     tier, day_count, first_coupon_date, industry, sector,
+                     subsector, country, rf_ID)
     bond_test.to_string()

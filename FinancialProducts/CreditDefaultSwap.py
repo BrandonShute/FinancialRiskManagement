@@ -105,11 +105,14 @@ class CreditDefaultSwap(Swap):
     # -------------------------------------------------------------------------
     # Object Definition
     # -------------------------------------------------------------------------
-    def __init__(self, ID, currency, start_date, expiration_date, underlying, notional, counterparty, pmt_freq, coupon,
-                 contract_spread, accrued_on_default, discount_curve, ratings, tier, day_count, industry=None,
-                 sector=None, subsector=None, country=None):
-        super(CreditDefaultSwap, self).__init__(ID, currency, start_date, expiration_date, underlying, notional,
-                                                counterparty, pmt_freq, country)
+    def __init__(self, ID, currency, start_date, expiration_date, underlying,
+                 notional, counterparty, pmt_freq, coupon, contract_spread,
+                 accrued_on_default, discount_curve, ratings, tier, day_count,
+                 industry=None, sector=None, subsector=None, country=None):
+        super(CreditDefaultSwap, self).__init__(ID, currency, start_date,
+                                                expiration_date, underlying,
+                                                notional, counterparty,
+                                                pmt_freq, country)
         self.coupon = coupon
         self.contract_spread = contract_spread
         self.accrued_on_default = accrued_on_default
@@ -217,7 +220,8 @@ class CreditDefaultSwap(Swap):
         constants.add('RecoveryRate-' + self.ID)
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Return a dictionary of the risk factors
@@ -239,7 +243,8 @@ class CreditDefaultSwap(Swap):
         matrices.add('TransitionMatrix')
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Return a dictionary of the risk factors
@@ -286,8 +291,10 @@ class CreditDefaultSwap(Swap):
         HazardRate = max(HazardRate, 0)
 
         # calculate price
-        price = valEng.CDS_pricing_function(PaymentFrequency, contractSpread, Notional, ValDate, MaturityDate,
-                                            BuyOrSellProtection, RecoveryRate, yieldCurveInput, HazardRate)
+        price = valEng.CDS_pricing_function(PaymentFrequency, contractSpread,
+                                            Notional, ValDate, MaturityDate,
+                                            BuyOrSellProtection, RecoveryRate,
+                                            yieldCurveInput, HazardRate)
         return price
 
     # -------------------------------------------------------------------------
@@ -331,7 +338,8 @@ if __name__ == '__main__':
     ID = 'CDSTesting'
     currency = 'USD'
     start_date = dt.datetime.today()
-    expiration_date = dt.datetime(start_date.year + 1, start_date.month, start_date.day, 00, 00)
+    expiration_date = dt.datetime(start_date.year + 1, start_date.month,
+                                  start_date.day, 00, 00)
     underlying = 'IBM'
     notional = 100000
     counterparty = 'Goldman Sachs'
@@ -343,7 +351,12 @@ if __name__ == '__main__':
     ratings = {'Moodys': 'Aa', 'S&P': 'AA', 'Fitch': 'A'}
     tier = 'Senior'
     day_count = 'ACT/360'
-    credit_default_swap_test = CreditDefaultSwap(ID, currency, start_date, expiration_date, underlying, notional,
-                                                 counterparty, pmt_freq, coupon, contract_spread, accrued_on_defualt,
-                                                 discount_curve, ratings, tier, day_count)
+    credit_default_swap_test = CreditDefaultSwap(ID, currency, start_date,
+                                                 expiration_date, underlying,
+                                                 notional, counterparty,
+                                                 pmt_freq, coupon,
+                                                 contract_spread,
+                                                 accrued_on_defualt,
+                                                 discount_curve, ratings, tier,
+                                                 day_count)
     credit_default_swap_test.to_string()

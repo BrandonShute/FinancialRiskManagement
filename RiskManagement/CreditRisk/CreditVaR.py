@@ -17,7 +17,8 @@ def generate_credit_VaR_distrubtion(portfolio, mkt_env, num_sims, corrC):
     credit_port = finProds.Portfolio({}, currency)
     for k, v in (portfolio.positions).items():
         x1 = type(k)
-        if str(x1) == "<class 'credit_default_swap.credit_default_swap'>" or str(
+        if str(
+                x1) == "<class 'credit_default_swap.credit_default_swap'>" or str(
                 x1) == "<class 'fixed_rate_bond.fixed_rate_bond'>" or str(
             x1) == "<class 'callable_bond.callable_bond'>" or str(
             x1) == "<class 'floating_rate_bond.floating_rate_bond'>":
@@ -62,34 +63,46 @@ def generate_credit_VaR_distrubtion(portfolio, mkt_env, num_sims, corrC):
     df_thresholds_NR = pd.DataFrame([thresholds_NR], columns=ratings)
 
     # Sort columns by value
-    new_col_AAA = df_thresholds_AAA.columns[df_thresholds_AAA.iloc[df_thresholds_AAA.last_valid_index()].argsort()]
+    new_col_AAA = df_thresholds_AAA.columns[
+        df_thresholds_AAA.iloc[df_thresholds_AAA.last_valid_index()].argsort()]
     df_thresholds_AAA_sorted = df_thresholds_AAA[new_col_AAA]
 
-    new_col_AA = df_thresholds_AA.columns[df_thresholds_AA.iloc[df_thresholds_AA.last_valid_index()].argsort()]
+    new_col_AA = df_thresholds_AA.columns[
+        df_thresholds_AA.iloc[df_thresholds_AA.last_valid_index()].argsort()]
     df_thresholds_AA_sorted = df_thresholds_AA[new_col_AA]
 
-    new_col_A = df_thresholds_A.columns[df_thresholds_A.iloc[df_thresholds_A.last_valid_index()].argsort()]
+    new_col_A = df_thresholds_A.columns[
+        df_thresholds_A.iloc[df_thresholds_A.last_valid_index()].argsort()]
     df_thresholds_A_sorted = df_thresholds_A[new_col_A]
 
-    new_col_BBB = df_thresholds_BBB.columns[df_thresholds_BBB.iloc[df_thresholds_BBB.last_valid_index()].argsort()]
+    new_col_BBB = df_thresholds_BBB.columns[
+        df_thresholds_BBB.iloc[df_thresholds_BBB.last_valid_index()].argsort()]
     df_thresholds_BBB_sorted = df_thresholds_BBB[new_col_BBB]
 
-    new_col_BB = df_thresholds_BB.columns[df_thresholds_BB.iloc[df_thresholds_BB.last_valid_index()].argsort()]
+    new_col_BB = df_thresholds_BB.columns[
+        df_thresholds_BB.iloc[df_thresholds_BB.last_valid_index()].argsort()]
     df_thresholds_BB_sorted = df_thresholds_BB[new_col_BB]
 
-    new_col_B = df_thresholds_B.columns[df_thresholds_B.iloc[df_thresholds_B.last_valid_index()].argsort()]
+    new_col_B = df_thresholds_B.columns[
+        df_thresholds_B.iloc[df_thresholds_B.last_valid_index()].argsort()]
     df_thresholds_B_sorted = df_thresholds_B[new_col_B]
 
-    new_col_CCC = df_thresholds_CCC.columns[df_thresholds_CCC.iloc[df_thresholds_CCC.last_valid_index()].argsort()]
+    new_col_CCC = df_thresholds_CCC.columns[
+        df_thresholds_CCC.iloc[df_thresholds_CCC.last_valid_index()].argsort()]
     df_thresholds_CCC_sorted = df_thresholds_CCC[new_col_CCC]
 
-    new_col_NR = df_thresholds_NR.columns[df_thresholds_NR.iloc[df_thresholds_NR.last_valid_index()].argsort()]
+    new_col_NR = df_thresholds_NR.columns[
+        df_thresholds_NR.iloc[df_thresholds_NR.last_valid_index()].argsort()]
     df_thresholds_NR_sorted = df_thresholds_NR[new_col_NR]
 
-    dict_df_thresholds_sorted = {'AAA': df_thresholds_AAA_sorted, 'AA': df_thresholds_AA_sorted,
-                                 'A': df_thresholds_A_sorted, 'BBB': df_thresholds_BBB_sorted,
-                                 'BB': df_thresholds_BB_sorted, 'B': df_thresholds_B_sorted,
-                                 'CCC/C': df_thresholds_CCC_sorted, 'NR': df_thresholds_NR_sorted}
+    dict_df_thresholds_sorted = {'AAA': df_thresholds_AAA_sorted,
+                                 'AA': df_thresholds_AA_sorted,
+                                 'A': df_thresholds_A_sorted,
+                                 'BBB': df_thresholds_BBB_sorted,
+                                 'BB': df_thresholds_BB_sorted,
+                                 'B': df_thresholds_B_sorted,
+                                 'CCC/C': df_thresholds_CCC_sorted,
+                                 'NR': df_thresholds_NR_sorted}
 
     # Do Simulation and Change Rating Accordingly
     scenarios = np.random.multivariate_normal(mu, cov, num_sims)
@@ -195,7 +208,8 @@ def generate_credit_VaR_distrubtion(portfolio, mkt_env, num_sims, corrC):
                 except:
                     recovery_rate = recovery_rate_list.iloc[0][-1]
 
-                bond_loss = face_value * (1.0 - recovery_rate) * v * FX_rate  # Need to multiply by position "v"
+                bond_loss = face_value * (
+                        1.0 - recovery_rate) * v * FX_rate  # Need to multiply by position "v"
 
                 default_port_loss_value = default_port_loss_value + bond_loss
 
@@ -223,7 +237,8 @@ def generate_credit_VaR_distrubtion(portfolio, mkt_env, num_sims, corrC):
     return tot_PnL_dist, migration_PnL_dist, default_PnL_dist
 
 
-def plot_credit_VaR_dist(PnL_dist, portfolio, mkt_env, scenario_horizon, VaR_horizon, alpha, num_bins, port_name=None):
+def plot_credit_VaR_dist(PnL_dist, portfolio, mkt_env, scenario_horizon,
+                         VaR_horizon, alpha, num_bins, port_name=None):
     '''
     plot_credit_VaR_dist(PnL_dist, portfolio, mkt_env, scenario_horizon,
                          VaR_horizon, alpha, num_bins, port_name=None)
@@ -261,9 +276,11 @@ def plot_credit_VaR_dist(PnL_dist, portfolio, mkt_env, scenario_horizon, VaR_hor
     VaR_lbl_str = str(100 * (1 - alpha)) + '% VaR'
     ES_lbl_str = str(100 * (1 - alpha)) + '% ES'
     if port_name == None:
-        title_str = 'Distribution of ' + str(VaR_horizon) + '-day Portfolio Returns'
+        title_str = 'Distribution of ' + str(
+            VaR_horizon) + '-day Portfolio Returns'
     else:
-        title_str = 'Distribution of ' + str(VaR_horizon) + '-day ' + port_name + ' Portfolio Returns'
+        title_str = 'Distribution of ' + str(
+            VaR_horizon) + '-day ' + port_name + ' Portfolio Returns'
 
     # Calculate the Profit and Loss Distribtuion in percentages
     port_value = portfolio.value_product(mkt_env)
@@ -278,8 +295,10 @@ def plot_credit_VaR_dist(PnL_dist, portfolio, mkt_env, scenario_horizon, VaR_hor
     plt.xlabel('Portfolio Returns (%)');
     plt.ylabel('Frequency');
     plt.title(title_str);
-    VaR_line, = plt.plot([VaR_perc, VaR_perc], [0, freq_max], color='r', label=VaR_lbl_str);
-    ES_line, = plt.plot([ES_perc, ES_perc], [0, freq_max], color='k', label=ES_lbl_str);
+    VaR_line, = plt.plot([VaR_perc, VaR_perc], [0, freq_max], color='r',
+                         label=VaR_lbl_str);
+    ES_line, = plt.plot([ES_perc, ES_perc], [0, freq_max], color='k',
+                        label=ES_lbl_str);
     plt.legend(handles=[VaR_line, ES_line])
     vals = ax.get_xticks()
     ax.set_xticklabels(['{:2.1f}%'.format(x * 100) for x in vals])

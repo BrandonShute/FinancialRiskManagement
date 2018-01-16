@@ -76,9 +76,11 @@ class Option(Derivative):
     # -------------------------------------------------------------------------
     # Object Definition
     # -------------------------------------------------------------------------
-    def __init__(self, ID, currency, start_date, expiration_date, underlying, strike, option_type, exercise_type,
-                 country=None, rf_ID=None, val_spec=None):
-        super(Option, self).__init__(ID, currency, start_date, expiration_date, underlying, country)
+    def __init__(self, ID, currency, start_date, expiration_date, underlying,
+                 strike, option_type, exercise_type, country=None, rf_ID=None,
+                 val_spec=None):
+        super(Option, self).__init__(ID, currency, start_date, expiration_date,
+                                     underlying, country)
         self.strike = strike
         self.option_type = option_type
         self.exercise_type = exercise_type
@@ -154,14 +156,16 @@ class Option(Derivative):
         curves.add('RiskFree-' + self.rf_ID + '-' + self.currency)
         # Underlying
         if type(self.underlying) == str:
-            constants.add((self.underlying).get_ID() + (self.underlying).get_currency())
+            constants.add(
+                (self.underlying).get_ID() + (self.underlying).get_currency())
         else:
             constants.add('MarketPrice-' + (self.underlying).get_ID())
         # Implied Volatilities
         surfaces.add('ImpliedVols-' + (self.underlying).get_ID())
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Dividends are currently not considered a risk factor (assumes
@@ -180,7 +184,8 @@ class Option(Derivative):
         surfaces = set([])
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Return a dictionary of the risk factors
@@ -205,7 +210,8 @@ class Option(Derivative):
         print('ID:\t\t\t\t' + self.ID)
         print('Currency:\t\t\t' + self.currency)
         print('Start Date:\t\t\t' + (self.start_date).strftime(date_str))
-        print('Expiration Date:\t\t' + (self.expiration_date).strftime(date_str))
+        print(
+            'Expiration Date:\t\t' + (self.expiration_date).strftime(date_str))
         if type(self.underlying) == str:
             print('Underlying:\t\t\t' + self.underlying)
         else:
@@ -231,11 +237,12 @@ if __name__ == '__main__':
     currency = 'USD'
     country = 'Canada'
     start_date = dt.datetime.today()
-    expiration_date = dt.datetime(start_date.year + 1, start_date.month, start_date.day, 0, 0)
+    expiration_date = dt.datetime(start_date.year + 1, start_date.month,
+                                  start_date.day, 0, 0)
     underlying = Stock('AAPL', 'USD', 'AAPLE', 'AAPL', 'AA')
     strike = 100
     option_type = 'Call'
     exercise_type = 'American'
-    option_test = Option(ID, currency, start_date, expiration_date, underlying, strike, option_type, exercise_type,
-                         country)
+    option_test = Option(ID, currency, start_date, expiration_date, underlying,
+                         strike, option_type, exercise_type, country)
     option_test.to_string()

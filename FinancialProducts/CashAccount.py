@@ -71,7 +71,8 @@ class CashAccount(Product):
         surfaces = set([])
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Return a dictionary of the risk factors
@@ -86,7 +87,8 @@ class CashAccount(Product):
         surfaces = set([])
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Return a dictionary of the risk factors

@@ -56,9 +56,10 @@ class Swap(Derivative):
     # -------------------------------------------------------------------------
     # Object Definition
     # -------------------------------------------------------------------------
-    def __init__(self, ID, currency, start_date, expiration_date, underlying, notional, counterparty, pmt_freq,
-                 country=None):
-        super(Swap, self).__init__(ID, currency, start_date, expiration_date, underlying, country)
+    def __init__(self, ID, currency, start_date, expiration_date, underlying,
+                 notional, counterparty, pmt_freq, country=None):
+        super(Swap, self).__init__(ID, currency, start_date, expiration_date,
+                                   underlying, country)
         self.notional = notional
         self.counterparty = counterparty
         self.pmt_freq = pmt_freq
@@ -146,9 +147,11 @@ if __name__ == '__main__':
     country = 'Canada'
     start_date = dt.datetime.today()
     underlying = 'OIS'
-    expiration_date = dt.datetime(start_date.year + 1, start_date.month, start_date.day, 00, 00)
+    expiration_date = dt.datetime(start_date.year + 1, start_date.month,
+                                  start_date.day, 00, 00)
     notional = 100000
     counterparty = 'Goldman Sachs'
     pmt_freq = 4
-    swap_test = Swap(ID, currency, start_date, expiration_date, underlying, notional, counterparty, pmt_freq, country)
+    swap_test = Swap(ID, currency, start_date, expiration_date, underlying,
+                     notional, counterparty, pmt_freq, country)
     swap_test.to_string()

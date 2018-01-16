@@ -56,7 +56,8 @@ def binomial_tree(S0, K, r, sigma, T, q, N, option, american):
         optval[N, jj] = max(0, cp * (stkval[N, jj] - K))
     for ii in range(N - 1, -1, -1):
         for jj in range(ii + 1):
-            optval[ii, jj] = (p * optval[ii + 1, jj] + (1 - p) * optval[ii + 1, jj + 1]) / drift
+            optval[ii, jj] = (p * optval[ii + 1, jj] + (1 - p) * optval[
+                ii + 1, jj + 1]) / drift
             if american:
                 optval[ii, jj] = max(optval[ii, jj], cp * (stkval[ii, jj] - K))
 

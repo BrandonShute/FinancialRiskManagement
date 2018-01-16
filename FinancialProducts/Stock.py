@@ -79,8 +79,9 @@ class Stock(Product):
     # -------------------------------------------------------------------------
     # Object Definition
     # -------------------------------------------------------------------------
-    def __init__(self, ID, currency, company_name, ticker, ratings, industry=None, sector=None, subsector=None,
-                 country=None, CUSIP=None):
+    def __init__(self, ID, currency, company_name, ticker, ratings,
+                 industry=None, sector=None, subsector=None, country=None,
+                 CUSIP=None):
         super(Stock, self).__init__(ID, currency, country)
         self.company_name = company_name
         self.ticker = ticker
@@ -178,7 +179,8 @@ class Stock(Product):
         constants.add(self.ID)
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Return a dictionary of the risk factors
@@ -193,7 +195,8 @@ class Stock(Product):
         surfaces = set([])
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Return a dictionary of the risk factors
@@ -242,5 +245,6 @@ if __name__ == '__main__':
     sector = 'information technology'
     subsector = 'information technology'
     CUSIP = 37833100
-    stock_test = Stock(ID, currency, company_name, ticker, ratings, industry, sector, subsector, country, CUSIP)
+    stock_test = Stock(ID, currency, company_name, ticker, ratings, industry,
+                       sector, subsector, country, CUSIP)
     stock_test.to_string()

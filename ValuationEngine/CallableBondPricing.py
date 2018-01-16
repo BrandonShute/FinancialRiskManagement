@@ -2,13 +2,17 @@ from dateutil.relativedelta import relativedelta
 import numpy as np
 
 
-def callable_bond_pricing_function(initial_short_rate, mu, vol, first_coupon_date, coupon_frequency, coupon_rate, face,
-                                   call_schedule, call_schedule_exercise_type, val_date, maturity_date):
+def callable_bond_pricing_function(initial_short_rate, mu, vol,
+                                   first_coupon_date, coupon_frequency,
+                                   coupon_rate, face, call_schedule,
+                                   call_schedule_exercise_type, val_date,
+                                   maturity_date):
     num_months = 12. / coupon_frequency
 
     initial_pmt__after__val_date = first_coupon_date
     while initial_pmt__after__val_date < val_date:
-        initial_pmt__after__val_date = initial_pmt__after__val_date + relativedelta(months=int(num_months))
+        initial_pmt__after__val_date = initial_pmt__after__val_date + relativedelta(
+            months=int(num_months))
 
     delta_t_1 = (initial_pmt__after__val_date - val_date).days / 365.
     delta_t_1plus = 1. / coupon_frequency
@@ -26,7 +30,8 @@ def callable_bond_pricing_function(initial_short_rate, mu, vol, first_coupon_dat
     coupon_rate = 1.0 * coupon_rate / coupon_frequency
     coupon_amount = coupon_rate / 100. * face
 
-    n = (maturity_date - val_date).days / 365.  # number of years between valdate and bond maturity
+    n = (
+                maturity_date - val_date).days / 365.  # number of years between valdate and bond maturity
     n = round(n * 2) / 2  # round to nearest 0.5
     num_steps = n / 0.5  # number of steps in interest rate tree
     num_steps = int(num_steps)  # change to integer
@@ -42,8 +47,10 @@ def callable_bond_pricing_function(initial_short_rate, mu, vol, first_coupon_dat
                 delta_t = delta_t_1
             else:
                 delta_t = delta_t_1plus
-            ho__lee__tree[jj, ii] = max(0, ho__lee__tree[jj, ii - 1] + mu * delta_t + vol * pow(delta_t, 0.5))
-        ho__lee__tree[ii, ii] = max(0, ho__lee__tree[ii - 1, ii - 1] + mu * delta_t - vol * pow(delta_t, 0.5))
+            ho__lee__tree[jj, ii] = max(0, ho__lee__tree[
+                jj, ii - 1] + mu * delta_t + vol * pow(delta_t, 0.5))
+        ho__lee__tree[ii, ii] = max(0, ho__lee__tree[
+            ii - 1, ii - 1] + mu * delta_t - vol * pow(delta_t, 0.5))
     bond__price__tree = np.zeros(shape=(num_steps + 1, num_steps + 1))
     bond__price__tree[:, -1] = face + coupon_amount
 
@@ -51,7 +58,9 @@ def callable_bond_pricing_function(initial_short_rate, mu, vol, first_coupon_dat
     # Incorporating Call Schedule
     call_schedule_2 = {}
     for ii in range(0, len(call_schedule) - 1 + 1):
-        call_schedule_2[int(round((call_schedule[ii, 0] - val_date).days / 365 * 2))] = call_schedule[ii, 1]
+        call_schedule_2[
+            int(round((call_schedule[ii, 0] - val_date).days / 365 * 2))] = \
+        call_schedule[ii, 1]
     call_schedule_times = set()
     for key in call_schedule_2:
         call_schedule_times.add(key)
@@ -82,9 +91,16 @@ def callable_bond_pricing_function(initial_short_rate, mu, vol, first_coupon_dat
                 coupon_amount = 0  # no coupon payment at time 0
             else:
                 delta_t = delta_t_1plus
-            bond__price__tree[jj, ii] = min(coupon_amount + (
-                    (0.5 * bond__price__tree[jj, ii + 1] + 0.5 * bond__price__tree[jj + 1, ii + 1]) / (
-                pow((1 + ho__lee__tree[jj, ii]), delta_t))), strike__tree[
+            bond__price__tree[jj, ii] = min(coupon_amount + ((0.5 *
+                                                              bond__price__tree[
+                                                                  jj, ii + 1] + 0.5 *
+                                                              bond__price__tree[
+                                                                  jj + 1, ii + 1]) / (
+                                                                 pow((1 +
+                                                                      ho__lee__tree[
+                                                                          jj, ii]),
+                                                                     delta_t))),
+                                            strike__tree[
                                                 jj, ii])  # reflects coupon payment at each node in adddition to discounted bond value at subsequent nodes   # (each node wit prob=0.5)  # this value is compared against  # set-up assumes call will be activated just prior to coupon payment
     bond__price = bond__price__tree[0, 0]
 

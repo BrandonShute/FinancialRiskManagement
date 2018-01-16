@@ -4,7 +4,8 @@ import math
 from scipy.linalg import cholesky
 
 
-def SimulationEngine(corr_matrix, std_dev_vector, numSim, sim_delta_t, vol_delta_t=None):
+def SimulationEngine(corr_matrix, std_dev_vector, numSim, sim_delta_t,
+                     vol_delta_t=None):
     # corr_matrix is correlation matrix of risk factor time series; format will be pandas DataFrame matrix
     # std_dev_vector is vector of standard deviations of risk factor time series; format will be pandas DataFrame matrix
     # numSim is number of simulations
@@ -44,7 +45,8 @@ def SimulationEngine(corr_matrix, std_dev_vector, numSim, sim_delta_t, vol_delta
     scaling_factor = 1.0 * sim_delta_t / vol_delta_t
 
     # Step 5: Calculate Diffusion Term
-    diffusion_term_matrix = (math.sqrt(scaling_factor)) * np.dot(lower_cholesky, std_normal_matrix)
+    diffusion_term_matrix = (math.sqrt(scaling_factor)) * np.dot(lower_cholesky,
+                                                                 std_normal_matrix)
     # Output the diffusion term matrix with rows representing different simulations and columns representing each risk factor:
     diffusion_term_matrix = np.transpose(diffusion_term_matrix)
 

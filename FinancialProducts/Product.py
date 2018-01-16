@@ -105,7 +105,8 @@ class Product(object):
             # added
             else:
                 spot_str = 'FXRates-' + to_currency + prod_currency
-                base_currency_conversion = 1.0 / market_environment.get_constant(spot_str)
+                base_currency_conversion = 1.0 / market_environment.get_constant(
+                    spot_str)
 
         return base_currency_conversion
 

@@ -4,8 +4,9 @@ import numpy as np
 import pandas as pd
 
 
-def optimize_FRN_price(FRN_market_price, first_coupon_date, coupon_frequency, maturity_date, val_date, coupon_rate,
-                       face, yield_curve, reference_curve, z_spread):
+def optimize_FRN_price(FRN_market_price, first_coupon_date, coupon_frequency,
+                       maturity_date, val_date, coupon_rate, face, yield_curve,
+                       reference_curve, z_spread):
     headers = list(yield_curve)
     yield_curve = z_spread + yield_curve.iloc[0, :]
     yield_curve = [kk for kk in yield_curve]
@@ -27,7 +28,8 @@ def optimize_FRN_price(FRN_market_price, first_coupon_date, coupon_frequency, ma
 
     j = 1
     while coupon_schedule[-1] < maturity_date:
-        coupon_schedule.append(coupon_schedule[-1] + relativedelta(months=int(num_months)))
+        coupon_schedule.append(
+            coupon_schedule[-1] + relativedelta(months=int(num_months)))
         j = j + 1
 
     if coupon_schedule[-1] > maturity_date:
@@ -41,9 +43,11 @@ def optimize_FRN_price(FRN_market_price, first_coupon_date, coupon_frequency, ma
 
     coupon_schedule_value = []
     for ii in range(len(coupon_schedule)):
-        coupon_schedule_value.append(float((coupon_schedule[ii] - val_date).days) / 365)
+        coupon_schedule_value.append(
+            float((coupon_schedule[ii] - val_date).days) / 365)
 
-    valuation_curve = interpolated_yield_curve(yield_curve, coupon_schedule_value)
+    valuation_curve = interpolated_yield_curve(yield_curve,
+                                               coupon_schedule_value)
 
     #    #ensure valuation curve only encompasses non-negative rates
     #    for ii in range(len(ValuationCurve)):
@@ -52,13 +56,17 @@ def optimize_FRN_price(FRN_market_price, first_coupon_date, coupon_frequency, ma
 
     #######################################################################
 
-    interp_ref_curve = interpolated_yield_curve(reference_curve, coupon_schedule_value)
+    interp_ref_curve = interpolated_yield_curve(reference_curve,
+                                                coupon_schedule_value)
 
     forward_curve = [interp_ref_curve[0]]
     for ii in range(len(interp_ref_curve) - 1):
-        forward_curve.append(pow(((pow(1 + interp_ref_curve[ii + 1], coupon_schedule_value[ii + 1])) / (
-            pow(1 + interp_ref_curve[ii], coupon_schedule_value[ii]))),
-                                 1. / (coupon_schedule_value[ii + 1] - coupon_schedule_value[ii])) - 1)
+        forward_curve.append(pow(((pow(1 + interp_ref_curve[ii + 1],
+                                       coupon_schedule_value[ii + 1])) / (
+                                      pow(1 + interp_ref_curve[ii],
+                                          coupon_schedule_value[ii]))), 1. / (
+                                         coupon_schedule_value[ii + 1] -
+                                         coupon_schedule_value[ii])) - 1)
 
     # ensure forward curve only encompasses non-negative rates
     for ii in range(len(forward_curve)):
@@ -75,9 +83,11 @@ def optimize_FRN_price(FRN_market_price, first_coupon_date, coupon_frequency, ma
 
     FRN_price = 0
     for ii in range(0, len(coupon_pmts)):
-        FRN_price = FRN_price + coupon_pmts[ii] / pow(1 + valuation_curve[ii], coupon_schedule_value[ii])
+        FRN_price = FRN_price + coupon_pmts[ii] / pow(1 + valuation_curve[ii],
+                                                      coupon_schedule_value[ii])
 
-    FRN_price = FRN_price + (face / pow(1 + valuation_curve[-1], timeto_maturity))
+    FRN_price = FRN_price + (
+            face / pow(1 + valuation_curve[-1], timeto_maturity))
 
     # return squared error
     return pow(FRN_price - FRN_market_price, 2)

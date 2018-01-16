@@ -81,18 +81,25 @@ class FlaotingRateBond(Bond):
     # -------------------------------------------------------------------------
     # Object Definition
     # -------------------------------------------------------------------------
-    def __init__(self, ID, currency, start_date, maturity_date, face_value, coupon_rate, coupon_freq, floating_ref,
-                 floating_spread, issuer, ratings, tier, day_count, first_coupon_date=None, industry=None, sector=None,
-                 subsector=None, country=None, rf_ID=None, val_spec=None):
+    def __init__(self, ID, currency, start_date, maturity_date, face_value,
+                 coupon_rate, coupon_freq, floating_ref, floating_spread,
+                 issuer, ratings, tier, day_count, first_coupon_date=None,
+                 industry=None, sector=None, subsector=None, country=None,
+                 rf_ID=None, val_spec=None):
 
         # Set up the dafault valuation specification for a floating rate bond
         # to be backwards evolution if no val_spec is specified
         if val_spec == None:
             val_spec = 'BackwardsEvolution'
 
-        super(FlaotingRateBond, self).__init__(ID, currency, start_date, maturity_date, face_value, 'Floating',
-                                               coupon_rate, coupon_freq, issuer, ratings, tier, day_count,
-                                               first_coupon_date, industry, sector, subsector, country, rf_ID, val_spec)
+        super(FlaotingRateBond, self).__init__(ID, currency, start_date,
+                                               maturity_date, face_value,
+                                               'Floating', coupon_rate,
+                                               coupon_freq, issuer, ratings,
+                                               tier, day_count,
+                                               first_coupon_date, industry,
+                                               sector, subsector, country,
+                                               rf_ID, val_spec)
         self.floating_ref = floating_ref
         self.floating_spread = floating_spread
 
@@ -135,21 +142,27 @@ class FlaotingRateBond(Bond):
         if rating == 'AAA':
             credit_spreads_vector = pd.DataFrame([[0, 0]], columns=[0.25, 30])
         else:
-            credit_spreads_vector = pd.DataFrame(np.array([credit_spread_matrix.loc[rating]]),
-                                                 columns=list(credit_spread_matrix))
+            credit_spreads_vector = pd.DataFrame(
+                np.array([credit_spread_matrix.loc[rating]]),
+                columns=list(credit_spread_matrix))
 
         string3 = 'IdiosyncraticSpread-' + ID
         idiosyncratic_spread = market_environment.get_constant(string3)
 
         # want to layer spread curve over risk-free curve, hence need to ensure they have same terms.
         # Use interpolation function to ensure same terms.
-        payment_timing = [0.25, 0.5, 1, 2, 3, 4, 5, 7, 10, 15, 20, 25, 30]  # represents Key Rates
+        payment_timing = [0.25, 0.5, 1, 2, 3, 4, 5, 7, 10, 15, 20, 25,
+                          30]  # represents Key Rates
 
-        risk_free_curve_interp = finModels.interpolated_yield_curve(risk_free_curve, payment_timing)
-        risk_free_curve_interp = pd.DataFrame(np.array([risk_free_curve_interp]), columns=payment_timing)
+        risk_free_curve_interp = finModels.interpolated_yield_curve(
+            risk_free_curve, payment_timing)
+        risk_free_curve_interp = pd.DataFrame(
+            np.array([risk_free_curve_interp]), columns=payment_timing)
 
-        credit_spreads_vector_interp = finModels.interpolated_yield_curve(credit_spreads_vector, payment_timing)
-        credit_spreads_vector_interp = pd.DataFrame(np.array([credit_spreads_vector_interp]), columns=payment_timing)
+        credit_spreads_vector_interp = finModels.interpolated_yield_curve(
+            credit_spreads_vector, payment_timing)
+        credit_spreads_vector_interp = pd.DataFrame(
+            np.array([credit_spreads_vector_interp]), columns=payment_timing)
 
         yieldCurveInput = risk_free_curve_interp + credit_spreads_vector_interp + idiosyncratic_spread
 
@@ -163,8 +176,10 @@ class FlaotingRateBond(Bond):
         referenceCurveInput = referenceCurveInput + floating_spread  # layer constant floating spread on top of reference curve
 
         # calculate price
-        price = valEng.FRN_pricing_function(FirstCouponDate, CouponFrequency, MaturityDate, ValDate, CouponRate, Face,
-                                            yieldCurveInput, referenceCurveInput)
+        price = valEng.FRN_pricing_function(FirstCouponDate, CouponFrequency,
+                                            MaturityDate, ValDate, CouponRate,
+                                            Face, yieldCurveInput,
+                                            referenceCurveInput)
         return price
 
     # -------------------------------------------------------------------------
@@ -184,7 +199,8 @@ class FlaotingRateBond(Bond):
         print('Issuer:\t\t\t\t' + self.issuer)
         for agency in self.ratings:
             print(agency + ':\t\t\t\t' + (self.ratings).get(agency))
-        print('First Coupon Date:\t\t' + (self.first_coupon_date).strftime(date_str))
+        print('First Coupon Date:\t\t' + (self.first_coupon_date).strftime(
+            date_str))
         print('Industry:\t\t\t' + self.industry)
         print('Sector:\t\t\t\t' + self.sector)
         print('Subsector:\t\t\t' + self.subsector)
@@ -210,7 +226,8 @@ if __name__ == '__main__':
     ID = 'FloatingRateBondTesting'
     currency = 'USD'
     start_date = dt.datetime.today()
-    maturity_date = dt.datetime(start_date.year + 1, start_date.month, start_date.day, 0, 0)
+    maturity_date = dt.datetime(start_date.year + 1, start_date.month,
+                                start_date.day, 0, 0)
     face_value = 100
     coupon_rate = 5
     coupon_freq = 2
@@ -226,7 +243,9 @@ if __name__ == '__main__':
     country = 'Canada'
     rf_ID = 'Govt'
     val_spec = 'DCF'
-    floating_rate_bond_test = FlaotingRateBond(ID, currency, start_date, maturity_date, face_value, coupon_rate,
-                                               coupon_freq, floating_ref, floating_spread, issuer, ratings, tier,
-                                               day_count)
+    floating_rate_bond_test = FlaotingRateBond(ID, currency, start_date,
+                                               maturity_date, face_value,
+                                               coupon_rate, coupon_freq,
+                                               floating_ref, floating_spread,
+                                               issuer, ratings, tier, day_count)
     floating_rate_bond_test.to_string()

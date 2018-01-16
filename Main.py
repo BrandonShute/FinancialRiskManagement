@@ -35,7 +35,8 @@ scenario_horizon_crd = 252.0
 VaR_horizon_crd = 252.0
 
 # Set the names of the sub-portfolios
-names = ['Equity Portfolio', 'Fixed Income Portfolio', 'Equity Option Portfolio', 'CDS Portfolio']
+names = ['Equity Portfolio', 'Fixed Income Portfolio',
+         'Equity Option Portfolio', 'CDS Portfolio']
 currency_names = ['CAD', 'USD', 'EUR']
 
 # -----------------------------------------------------------------------------
@@ -170,9 +171,11 @@ eo_expos_weight = eo_expos / tot_expos
 CDS_expos_weight = CDS_expos / tot_expos
 
 # Plot the sub-portfolio percetages of exposure
-expos_weights = np.array([equity_expos_weight, FI_expos_weight, eo_expos_weight, CDS_expos_weight])
+expos_weights = np.array(
+    [equity_expos_weight, FI_expos_weight, eo_expos_weight, CDS_expos_weight])
 colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
-plt.pie(expos_weights, colors=colors, shadow=True, startangle=90, autopct='%1.1f%%', labels=names)
+plt.pie(expos_weights, colors=colors, shadow=True, startangle=90,
+        autopct='%1.1f%%', labels=names)
 plt.axis('equal')
 plt.tight_layout()
 plt.title('Total Portfolio Exposures Relative to Asset Classes')
@@ -195,9 +198,11 @@ CDS_expos_weight_long = CDS_expos_long / tot_expos_long
 
 # Plot the sub-portfolio percetages of exposure
 expos_weights_long = np.array(
-    [equity_expos_weight_long, FI_expos_weight_long, eo_expos_weight_long, CDS_expos_weight_long])
+    [equity_expos_weight_long, FI_expos_weight_long, eo_expos_weight_long,
+     CDS_expos_weight_long])
 colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
-plt.pie(expos_weights_long, colors=colors, shadow=True, startangle=90, autopct='%1.1f%%', labels=names)
+plt.pie(expos_weights_long, colors=colors, shadow=True, startangle=90,
+        autopct='%1.1f%%', labels=names)
 plt.axis('equal')
 plt.tight_layout()
 plt.title('Long Portfolio Exposures Relative to Asset Classes')
@@ -221,11 +226,12 @@ CDS_expos_weight_short = CDS_expos_short / tot_expos_short
 # Plot the sub-portfolio percetages of exposure
 expos_weights_short = np.array([FI_expos_weight_short, CDS_expos_weight_short])
 colors = ['lightskyblue', 'yellowgreen']
-plt.pie(expos_weights_short, colors=colors, shadow=True, startangle=90, autopct='%1.1f%%',
-        labels=['Fixed Income Portfolio', 'CDS Portfolio'])
+plt.pie(expos_weights_short, colors=colors, shadow=True, startangle=90,
+        autopct='%1.1f%%', labels=['Fixed Income Portfolio', 'CDS Portfolio'])
 plt.axis('equal')
 plt.tight_layout()
-plt.title('Short Portfolio Exposures Relative to Asset Classes Converted to CAD')
+plt.title(
+    'Short Portfolio Exposures Relative to Asset Classes Converted to CAD')
 plt.show()
 
 # --------
@@ -241,9 +247,11 @@ USD_expos_weight = USD_expos / tot_expos
 EUR_expos_weight = EUR_expos / tot_expos
 
 # Plot the sub-portfolio percetages of exposure
-expos_weights_curr = np.array([CAD_expos_weight, USD_expos_weight, EUR_expos_weight])
+expos_weights_curr = np.array(
+    [CAD_expos_weight, USD_expos_weight, EUR_expos_weight])
 colors = ['gold', 'lightskyblue', 'lightcoral']
-plt.pie(expos_weights_curr, colors=colors, shadow=True, startangle=90, autopct='%1.1f%%', labels=currency_names)
+plt.pie(expos_weights_curr, colors=colors, shadow=True, startangle=90,
+        autopct='%1.1f%%', labels=currency_names)
 plt.axis('equal')
 plt.tight_layout()
 plt.title('Total Portfolio Exposures Relative to Currencies Converted to CAD')
@@ -262,9 +270,11 @@ USD_expos_weight_long = USD_expos_long / tot_expos_long
 EUR_expos_weight_long = EUR_expos_long / tot_expos_long
 
 # Plot the sub-portfolio percetages of exposure
-expos_weights_curr_long = np.array([CAD_expos_weight_long, USD_expos_weight_long, EUR_expos_weight_long])
+expos_weights_curr_long = np.array(
+    [CAD_expos_weight_long, USD_expos_weight_long, EUR_expos_weight_long])
 colors = ['gold', 'lightskyblue', 'lightcoral']
-plt.pie(expos_weights_curr_long, colors=colors, shadow=True, startangle=90, autopct='%1.1f%%', labels=currency_names)
+plt.pie(expos_weights_curr_long, colors=colors, shadow=True, startangle=90,
+        autopct='%1.1f%%', labels=currency_names)
 plt.axis('equal')
 plt.tight_layout()
 plt.title('Long Portfolio Exposures Relative to Currencies Converted to CAD')
@@ -283,9 +293,11 @@ USD_expos_weight_short = USD_expos_short / tot_expos_short
 EUR_expos_weight_short = EUR_expos_short / tot_expos_short
 
 # Plot the sub-portfolio percetages of exposure
-expos_weights_curr_short = np.array([CAD_expos_weight_short, USD_expos_weight_short, EUR_expos_weight_short])
+expos_weights_curr_short = np.array(
+    [CAD_expos_weight_short, USD_expos_weight_short, EUR_expos_weight_short])
 colors = ['gold', 'lightskyblue', 'lightcoral']
-plt.pie(expos_weights_curr_short, colors=colors, shadow=True, startangle=90, autopct='%1.1f%%', labels=currency_names)
+plt.pie(expos_weights_curr_short, colors=colors, shadow=True, startangle=90,
+        autopct='%1.1f%%', labels=currency_names)
 plt.axis('equal')
 plt.tight_layout()
 plt.title('Short Portfolio Exposures Relative to Currencies')
@@ -295,7 +307,8 @@ plt.show()
 tot_val = tot_port.value_product(mkt_env)
 tot_val_long = tot_port_long.value_product(mkt_env)
 tot_val_short = tot_port_short.value_product(mkt_env)
-leverage_expos = (tot_expos_long - tot_expos_short) / (tot_expos_long + tot_expos_short)
+leverage_expos = (tot_expos_long - tot_expos_short) / (
+        tot_expos_long + tot_expos_short)
 leverage_val = (tot_val_long - tot_val_short) / (tot_val_long + tot_val_short)
 
 # -----------------------------------------------------------------------------
@@ -304,7 +317,8 @@ leverage_val = (tot_val_long - tot_val_short) / (tot_val_long + tot_val_short)
 
 # Generate Scenarios
 print('Generating Market Risk Scenarios..')
-scenarios = finRisk.SimulationEngine(corr_mat, factor_vol, num_sims_mkt, sim_delta_t)
+scenarios = finRisk.SimulationEngine(corr_mat, factor_vol, num_sims_mkt,
+                                     sim_delta_t)
 
 # Convert Scenarios to Market Environment
 print('Converting Scenarios to Market Environments..')
@@ -312,39 +326,62 @@ mkt_env_dist = finRisk.generate_mkt_env_distribution(scenarios, mkt_env)
 
 # Generate PnL Distributions and Calculate Market VaR and ES
 print('Generating Market Risk Total Portfolio Distribution..')
-tot_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(tot_port, mkt_env_dist, mkt_env)
-tot_mkt_VaR, tot_mkt_ES = finRisk.calculate_VaR_from_PnL(tot_mkt_PnL_dist, alpha_mkt)
+tot_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(tot_port,
+                                                                   mkt_env_dist,
+                                                                   mkt_env)
+tot_mkt_VaR, tot_mkt_ES = finRisk.calculate_VaR_from_PnL(tot_mkt_PnL_dist,
+                                                         alpha_mkt)
 
 tot_mkt_mean = np.mean(tot_mkt_PnL_dist)
 tot_mkt_vol = np.std(tot_mkt_PnL_dist)
 
 print('Generating Market Risk Equity Portfolio Distribution..')
-equity_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(equity_port, mkt_env_dist, mkt_env)
-equity_mkt_VaR, equity_mkt_ES = finRisk.calculate_VaR_from_PnL(equity_mkt_PnL_dist, alpha_mkt)
+equity_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(
+    equity_port, mkt_env_dist, mkt_env)
+equity_mkt_VaR, equity_mkt_ES = finRisk.calculate_VaR_from_PnL(
+    equity_mkt_PnL_dist, alpha_mkt)
 
 print('Generating Market Risk Fixed Income Portfolio Distribution..')
-FI_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(FI_port, mkt_env_dist, mkt_env)
-FI_mkt_VaR, FI_mkt_ES = finRisk.calculate_VaR_from_PnL(FI_mkt_PnL_dist, alpha_mkt)
+FI_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(FI_port,
+                                                                  mkt_env_dist,
+                                                                  mkt_env)
+FI_mkt_VaR, FI_mkt_ES = finRisk.calculate_VaR_from_PnL(FI_mkt_PnL_dist,
+                                                       alpha_mkt)
 
 print('Generating Market Risk Equity Option Portfolio Distribution..')
-eo_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(eo_port, mkt_env_dist, mkt_env)
-eo_mkt_VaR, eo_mkt_ES = finRisk.calculate_VaR_from_PnL(eo_mkt_PnL_dist, alpha_mkt)
+eo_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(eo_port,
+                                                                  mkt_env_dist,
+                                                                  mkt_env)
+eo_mkt_VaR, eo_mkt_ES = finRisk.calculate_VaR_from_PnL(eo_mkt_PnL_dist,
+                                                       alpha_mkt)
 
 print('Generating Market Risk CDS Portfolio Distribution..')
-CDS_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(CDS_port, mkt_env_dist, mkt_env)
-CDS_mkt_VaR, CDS_mkt_ES = finRisk.calculate_VaR_from_PnL(CDS_mkt_PnL_dist, alpha_mkt)
+CDS_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(CDS_port,
+                                                                   mkt_env_dist,
+                                                                   mkt_env)
+CDS_mkt_VaR, CDS_mkt_ES = finRisk.calculate_VaR_from_PnL(CDS_mkt_PnL_dist,
+                                                         alpha_mkt)
 
 print('Generating Market Risk CAD Portfolio Distribution..')
-CAD_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(CAD_port, mkt_env_dist, mkt_env)
-CAD_mkt_VaR, CAD_mkt_ES = finRisk.calculate_VaR_from_PnL(CAD_mkt_PnL_dist, alpha_mkt)
+CAD_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(CAD_port,
+                                                                   mkt_env_dist,
+                                                                   mkt_env)
+CAD_mkt_VaR, CAD_mkt_ES = finRisk.calculate_VaR_from_PnL(CAD_mkt_PnL_dist,
+                                                         alpha_mkt)
 
 print('Generating Market Risk USD Portfolio Distribution..')
-USD_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(USD_port, mkt_env_dist, mkt_env)
-USD_mkt_VaR, USD_mkt_ES = finRisk.calculate_VaR_from_PnL(USD_mkt_PnL_dist, alpha_mkt)
+USD_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(USD_port,
+                                                                   mkt_env_dist,
+                                                                   mkt_env)
+USD_mkt_VaR, USD_mkt_ES = finRisk.calculate_VaR_from_PnL(USD_mkt_PnL_dist,
+                                                         alpha_mkt)
 
 print('Generating Market Risk EUR Portfolio Distribution..')
-EUR_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(EUR_port, mkt_env_dist, mkt_env)
-EUR_mkt_VaR, EUR_mkt_ES = finRisk.calculate_VaR_from_PnL(EUR_mkt_PnL_dist, alpha_mkt)
+EUR_mkt_PnL_dist = finRisk.generate_PnL_distribution_from_mkt_envs(EUR_port,
+                                                                   mkt_env_dist,
+                                                                   mkt_env)
+EUR_mkt_VaR, EUR_mkt_ES = finRisk.calculate_VaR_from_PnL(EUR_mkt_PnL_dist,
+                                                         alpha_mkt)
 
 # -----------------------------------------------------------------------------
 # Marginal Market VaR of the portfolio and sub-portfolios
@@ -360,61 +397,82 @@ FI_val = FI_port.value_product(mkt_env)
 eo_val = eo_port.value_product(mkt_env)
 CDS_val = CDS_port.value_product(mkt_env)
 
-weights_assets = np.array([equity_val / tot_val, FI_val / tot_val, eo_val / tot_val, CDS_val / tot_val])
-combined_dist_assets = np.matrix([equity_mkt_PnL_dist, FI_mkt_PnL_dist, eo_mkt_PnL_dist, CDS_mkt_PnL_dist])
+weights_assets = np.array(
+    [equity_val / tot_val, FI_val / tot_val, eo_val / tot_val,
+     CDS_val / tot_val])
+combined_dist_assets = np.matrix(
+    [equity_mkt_PnL_dist, FI_mkt_PnL_dist, eo_mkt_PnL_dist, CDS_mkt_PnL_dist])
 
 CAD_val = CAD_port.value_product(mkt_env)
 USD_val = USD_port.value_product(mkt_env)
 EUR_val = EUR_port.value_product(mkt_env)
 
-weights_currency = np.array([CAD_val / tot_val, USD_val / tot_val, EUR_val / tot_val])
-combined_dist_currency = np.matrix([CAD_mkt_PnL_dist, USD_mkt_PnL_dist, EUR_mkt_PnL_dist])
+weights_currency = np.array(
+    [CAD_val / tot_val, USD_val / tot_val, EUR_val / tot_val])
+combined_dist_currency = np.matrix(
+    [CAD_mkt_PnL_dist, USD_mkt_PnL_dist, EUR_mkt_PnL_dist])
 
 # Calculate Marginal VaR with respect the the sub portfolios
 print('Total Portfolio Marginal VaR with respect to asset classes..')
-tot_RC, tot_MVaR = finRisk.marginal_VaR_from_sub_dists(combined_dist_assets, weights_assets, alpha_mkt, names)
+tot_RC, tot_MVaR = finRisk.marginal_VaR_from_sub_dists(combined_dist_assets,
+                                                       weights_assets,
+                                                       alpha_mkt, names)
 
 print('Total Portfolio Marginal VaR with respect to currencies..')
-tot_RC_curr, tot_MVaR_curr = finRisk.marginal_VaR_from_sub_dists(combined_dist_currency, weights_currency, alpha_mkt,
-                                                                 currency_names)
+tot_RC_curr, tot_MVaR_curr = finRisk.marginal_VaR_from_sub_dists(
+    combined_dist_currency, weights_currency, alpha_mkt, currency_names)
 
 # Calculate Marginal VaR of each sub portfolio with respect to the underlying
 # assets
 print('Equity Portfolio Marginal VaR..')
-equity_RC, equity_MVaR = finRisk.marginal_VaR_from_total_port(equity_port, mkt_env, scenarios, alpha_mkt)
+equity_RC, equity_MVaR = finRisk.marginal_VaR_from_total_port(equity_port,
+                                                              mkt_env,
+                                                              scenarios,
+                                                              alpha_mkt)
 print('Fixed Income Portfolio Marginal VaR..')
-FI_RC, FI_MVaR = finRisk.marginal_VaR_from_total_port(FI_port, mkt_env, scenarios, alpha_mkt)
+FI_RC, FI_MVaR = finRisk.marginal_VaR_from_total_port(FI_port, mkt_env,
+                                                      scenarios, alpha_mkt)
 print('Equity Option Portfolio Marginal VaR..')
-eo_RC, eo_MVaR = finRisk.marginal_VaR_from_total_port(eo_port, mkt_env, scenarios, alpha_mkt)
+eo_RC, eo_MVaR = finRisk.marginal_VaR_from_total_port(eo_port, mkt_env,
+                                                      scenarios, alpha_mkt)
 print('CDS Portfolio Marginal VaR..')
-CDS_RC, CDS_MVaR = finRisk.marginal_VaR_from_total_port(CDS_port, mkt_env, scenarios, alpha_mkt)
+CDS_RC, CDS_MVaR = finRisk.marginal_VaR_from_total_port(CDS_port, mkt_env,
+                                                        scenarios, alpha_mkt)
 
 # -----------------------------------------------------------------------------
 # Plot the Market VaR Distribution of the Portfolios
 # -----------------------------------------------------------------------------
 print('Plotting the Market VaR Distribution of the Portfolios..')
-finRisk.plot_market_VaR_dist(tot_mkt_PnL_dist, tot_port, mkt_env, scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
+finRisk.plot_market_VaR_dist(tot_mkt_PnL_dist, tot_port, mkt_env,
+                             scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
                              num_bins, 'Total')
 
-finRisk.plot_market_VaR_dist(equity_mkt_PnL_dist, equity_port, mkt_env, scenario_horizon_mkt, VaR_horizon_mkt,
-                             alpha_mkt, num_bins, 'Equity')
+finRisk.plot_market_VaR_dist(equity_mkt_PnL_dist, equity_port, mkt_env,
+                             scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
+                             num_bins, 'Equity')
 
-finRisk.plot_market_VaR_dist(FI_mkt_PnL_dist, FI_port, mkt_env, scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
+finRisk.plot_market_VaR_dist(FI_mkt_PnL_dist, FI_port, mkt_env,
+                             scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
                              num_bins, 'Fixed Income')
 
-finRisk.plot_market_VaR_dist(eo_mkt_PnL_dist, eo_port, mkt_env, scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
+finRisk.plot_market_VaR_dist(eo_mkt_PnL_dist, eo_port, mkt_env,
+                             scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
                              num_bins, 'Equity Option')
 
-finRisk.plot_market_VaR_dist(CDS_mkt_PnL_dist, CDS_port, mkt_env, scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
+finRisk.plot_market_VaR_dist(CDS_mkt_PnL_dist, CDS_port, mkt_env,
+                             scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
                              num_bins, 'CDS')
 
-finRisk.plot_market_VaR_dist(CAD_mkt_PnL_dist, CAD_port, mkt_env, scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
+finRisk.plot_market_VaR_dist(CAD_mkt_PnL_dist, CAD_port, mkt_env,
+                             scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
                              num_bins, 'CAD')
 
-finRisk.plot_market_VaR_dist(USD_mkt_PnL_dist, USD_port, mkt_env, scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
+finRisk.plot_market_VaR_dist(USD_mkt_PnL_dist, USD_port, mkt_env,
+                             scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
                              num_bins, 'USD')
 
-finRisk.plot_market_VaR_dist(EUR_mkt_PnL_dist, EUR_port, mkt_env, scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
+finRisk.plot_market_VaR_dist(EUR_mkt_PnL_dist, EUR_port, mkt_env,
+                             scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
                              num_bins, 'EUR')
 
 # -----------------------------------------------------------------------------
@@ -423,14 +481,18 @@ finRisk.plot_market_VaR_dist(EUR_mkt_PnL_dist, EUR_port, mkt_env, scenario_horiz
 
 # Generate PnL Distributions and Calculate Credit VaR and ES
 print('Generating Credit Risk Total Portfolio Distribution..')
-tot_cred_PnL_dists = finRisk.generate_credit_VaR_distrubtion(tot_port, mkt_env, num_sims_crd, rho)
+tot_cred_PnL_dists = finRisk.generate_credit_VaR_distrubtion(tot_port, mkt_env,
+                                                             num_sims_crd, rho)
 tot_cred_PnL_dist = tot_cred_PnL_dists[0]
 tot_mig_PnL_dist = tot_cred_PnL_dists[1]
 tot_dflt_PnL_dist = tot_cred_PnL_dists[2]
 
-tot_cred_VaR, tot_cred_ES = finRisk.calculate_VaR_from_PnL(tot_cred_PnL_dist, alpha_crd)
-tot_mig_VaR, tot_mig_ES = finRisk.calculate_VaR_from_PnL(tot_mig_PnL_dist, alpha_crd)
-tot_dflt_VaR, tot_dflt_ES = finRisk.calculate_VaR_from_PnL(tot_dflt_PnL_dist, alpha_crd)
+tot_cred_VaR, tot_cred_ES = finRisk.calculate_VaR_from_PnL(tot_cred_PnL_dist,
+                                                           alpha_crd)
+tot_mig_VaR, tot_mig_ES = finRisk.calculate_VaR_from_PnL(tot_mig_PnL_dist,
+                                                         alpha_crd)
+tot_dflt_VaR, tot_dflt_ES = finRisk.calculate_VaR_from_PnL(tot_dflt_PnL_dist,
+                                                           alpha_crd)
 
 tot_cred_mean = np.mean(tot_cred_PnL_dist)
 tot_cred_vol = np.std(tot_cred_PnL_dist)
@@ -442,14 +504,20 @@ credit_economic_capital = -1.0 * (tot_cred_VaR - expected_credit_loss)
 # Generate PnL Distributions and Calculate Credit VaR and ES under stressed
 # pairwise correlation
 print('Generating Stressed Credit Risk Total Portfolio Distribution..')
-tot_stressed_cred_PnL_dists = finRisk.generate_credit_VaR_distrubtion(tot_port, mkt_env, num_sims_crd, stressed_rho)
+tot_stressed_cred_PnL_dists = finRisk.generate_credit_VaR_distrubtion(tot_port,
+                                                                      mkt_env,
+                                                                      num_sims_crd,
+                                                                      stressed_rho)
 tot_stressed_cred_PnL_dist = tot_stressed_cred_PnL_dists[0]
 tot_stressed_mig_PnL_dist = tot_stressed_cred_PnL_dists[1]
 tot_stressed_dflt_PnL_dist = tot_stressed_cred_PnL_dists[2]
 
-tot_stressed_cred_VaR, tot_stressed_cred_ES = finRisk.calculate_VaR_from_PnL(tot_stressed_cred_PnL_dist, alpha_crd)
-tot_stressed_mig_VaR, tot_stressed_mig_ES = finRisk.calculate_VaR_from_PnL(tot_stressed_mig_PnL_dist, alpha_crd)
-tot_stressed_dflt_VaR, tot_stressed_dflt_ES = finRisk.calculate_VaR_from_PnL(tot_stressed_dflt_PnL_dist, alpha_crd)
+tot_stressed_cred_VaR, tot_stressed_cred_ES = finRisk.calculate_VaR_from_PnL(
+    tot_stressed_cred_PnL_dist, alpha_crd)
+tot_stressed_mig_VaR, tot_stressed_mig_ES = finRisk.calculate_VaR_from_PnL(
+    tot_stressed_mig_PnL_dist, alpha_crd)
+tot_stressed_dflt_VaR, tot_stressed_dflt_ES = finRisk.calculate_VaR_from_PnL(
+    tot_stressed_dflt_PnL_dist, alpha_crd)
 
 tot_cred_mean = np.mean(tot_stressed_cred_PnL_dist)
 tot_cred_vol = np.std(tot_stressed_cred_PnL_dist)
@@ -459,26 +527,33 @@ tot_cred_vol = np.std(tot_stressed_cred_PnL_dist)
 # -----------------------------------------------------------------------------
 
 # Regular Correlation
-finRisk.plot_credit_VaR_dist(tot_cred_PnL_dist, tot_port, mkt_env, scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
+finRisk.plot_credit_VaR_dist(tot_cred_PnL_dist, tot_port, mkt_env,
+                             scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
                              num_bins, 'Total')
-finRisk.plot_credit_VaR_dist(tot_mig_PnL_dist, tot_port, mkt_env, scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
+finRisk.plot_credit_VaR_dist(tot_mig_PnL_dist, tot_port, mkt_env,
+                             scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
                              num_bins, 'Total Migration')
-finRisk.plot_credit_VaR_dist(tot_dflt_PnL_dist, tot_port, mkt_env, scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
+finRisk.plot_credit_VaR_dist(tot_dflt_PnL_dist, tot_port, mkt_env,
+                             scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
                              num_bins, 'Total Defaults')
 
 # Stressed Correlation
-finRisk.plot_credit_VaR_dist(tot_cred_PnL_dist, tot_port, mkt_env, scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
+finRisk.plot_credit_VaR_dist(tot_cred_PnL_dist, tot_port, mkt_env,
+                             scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
                              num_bins, 'Stressed Total')
-finRisk.plot_credit_VaR_dist(tot_mig_PnL_dist, tot_port, mkt_env, scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
+finRisk.plot_credit_VaR_dist(tot_mig_PnL_dist, tot_port, mkt_env,
+                             scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
                              num_bins, 'Stressed Total Migration')
-finRisk.plot_credit_VaR_dist(tot_dflt_PnL_dist, tot_port, mkt_env, scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
+finRisk.plot_credit_VaR_dist(tot_dflt_PnL_dist, tot_port, mkt_env,
+                             scenario_horizon_crd, VaR_horizon_crd, alpha_crd,
                              num_bins, 'Stressed Total Defaults')
 
 # -----------------------------------------------------------------------------
 # Generate Portfolio Sensitivities
 # -----------------------------------------------------------------------------
 print('Generating Total Portfolio Sensitivities..')
-sensitivities_tot = finScenarios.calculate_portfolio_sensitivities(mkt_env, tot_port)
+sensitivities_tot = finScenarios.calculate_portfolio_sensitivities(mkt_env,
+                                                                   tot_port)
 sensitivities_tot = pd.DataFrame.from_dict(sensitivities_tot)
 
 # -----------------------------------------------------------------------------
@@ -486,9 +561,13 @@ sensitivities_tot = pd.DataFrame.from_dict(sensitivities_tot)
 # -----------------------------------------------------------------------------
 print('Generating Distribution for Market Stressed VaR..')
 stressed_scenarios = finScenarios.housing_bubble_scenerios()
-stressed_tot_PnL_dist = finRisk.generate_PnL_distribution(tot_port, stressed_scenarios, mkt_env)
-tot_SVaR, tot_SES = finRisk.calculate_VaR_from_PnL(stressed_tot_PnL_dist, alpha_mkt)
-finRisk.plot_market_VaR_dist(stressed_tot_PnL_dist, tot_port, mkt_env, scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
+stressed_tot_PnL_dist = finRisk.generate_PnL_distribution(tot_port,
+                                                          stressed_scenarios,
+                                                          mkt_env)
+tot_SVaR, tot_SES = finRisk.calculate_VaR_from_PnL(stressed_tot_PnL_dist,
+                                                   alpha_mkt)
+finRisk.plot_market_VaR_dist(stressed_tot_PnL_dist, tot_port, mkt_env,
+                             scenario_horizon_mkt, VaR_horizon_mkt, alpha_mkt,
                              num_bins, 'Total Stressed')
 
 # -----------------------------------------------------------------------------
@@ -497,29 +576,38 @@ finRisk.plot_market_VaR_dist(stressed_tot_PnL_dist, tot_port, mkt_env, scenario_
 print('Generating Stress Scenarios..')
 # Adverse Scenario
 mkt_env_Adverse_Scenario = finScenarios.generate_adverse_scenario(mkt_env)
-SVaR_Adverse_Scenario = tot_port.value_product(mkt_env_Adverse_Scenario) - tot_port.value_product(mkt_env)
+SVaR_Adverse_Scenario = tot_port.value_product(
+    mkt_env_Adverse_Scenario) - tot_port.value_product(mkt_env)
 
 # FS_Vulnerability Scenario
-mkt_env_FS_Vulnerability_Scenario = finScenarios.generate_vulnerability_stress_scenario(mkt_env)
-SVaR_FS_Vulnerability_Scenario = tot_port.value_product(mkt_env_FS_Vulnerability_Scenario) - tot_port.value_product(
+mkt_env_FS_Vulnerability_Scenario = finScenarios.generate_vulnerability_stress_scenario(
     mkt_env)
+SVaR_FS_Vulnerability_Scenario = tot_port.value_product(
+    mkt_env_FS_Vulnerability_Scenario) - tot_port.value_product(mkt_env)
 
 # -----------------------------------------------------------------------------
 # Regulatory Capital
 # -----------------------------------------------------------------------------
 print('Calculating Total Regulatory Capital..')
 tot_val = tot_port.value_product(mkt_env)
-breachs = finRisk.backtest_VaR_from_historic(tot_port, mkt_env, tot_mkt_VaR, 252, val_date)
+breachs = finRisk.backtest_VaR_from_historic(tot_port, mkt_env, tot_mkt_VaR,
+                                             252, val_date)
 adj_factor = finRisk.calculate_capital_factor(breachs)
-MarketRiskCapital = finRisk.calculate_market_risk_capital(tot_mkt_VaR, SVaR_Adverse_Scenario, tot_cred_VaR, adj_factor)
-CounterpartyCreditRiskCapital_SA = finRisk.calculate_counterparty_credit_risk_capital(tot_port, mkt_env)
-tot_reg_Capital = finRisk.calculate_regulatory_capital(MarketRiskCapital, CounterpartyCreditRiskCapital_SA)
+MarketRiskCapital = finRisk.calculate_market_risk_capital(tot_mkt_VaR,
+                                                          SVaR_Adverse_Scenario,
+                                                          tot_cred_VaR,
+                                                          adj_factor)
+CounterpartyCreditRiskCapital_SA = finRisk.calculate_counterparty_credit_risk_capital(
+    tot_port, mkt_env)
+tot_reg_Capital = finRisk.calculate_regulatory_capital(MarketRiskCapital,
+                                                       CounterpartyCreditRiskCapital_SA)
 
 # -----------------------------------------------------------------------------
 # Economic Capital
 # -----------------------------------------------------------------------------
 print('Calculating Total Economic Capital..')
-tot_economic_capital = credit_economic_capital + adj_factor * (-1.0 * tot_mkt_VaR)
+tot_economic_capital = credit_economic_capital + adj_factor * (
+        -1.0 * tot_mkt_VaR)
 
 # ------------------------------------------------------------------------------
 # Capital Allocation
@@ -546,7 +634,8 @@ tot_val_yester = tot_port.value_product(mkt_env_yester)
 
 # Generate a historic PnL distribution
 historic_scenarios = finScenarios.historic_specified_amt(253, val_date_yester)
-PnL_dist_hist = finRisk.generate_PnL_distribution(tot_port, historic_scenarios, mkt_env)
+PnL_dist_hist = finRisk.generate_PnL_distribution(tot_port, historic_scenarios,
+                                                  mkt_env)
 
 # Calculate Returns
 tot_val_yester = tot_port.value_product(mkt_env_yester)

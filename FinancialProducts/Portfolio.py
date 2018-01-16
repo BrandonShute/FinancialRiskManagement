@@ -107,7 +107,8 @@ class Portfolio(object):
             surfaces.add(factor_dict.get('Surfaces'))
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Return a dictionary of the risk factors
@@ -133,7 +134,8 @@ class Portfolio(object):
             surfaces.add(factor_dict.get('Surfaces'))
 
         # Crete the dictionary of risk factors
-        risk_factors = {'Constants': constants, 'Lists': lists, 'Curves': curves, 'Matrices': matrices,
+        risk_factors = {'Constants': constants, 'Lists': lists,
+                        'Curves': curves, 'Matrices': matrices,
                         'Surfaces': surfaces}
 
         # Return a dictionary of the risk factors
@@ -229,13 +231,15 @@ class Portfolio(object):
         else:
             spot_str = 'FXRates-' + prod_currency + port_currency
             if spot_str in (market_environment.constants).keys():
-                base_currency_conversion = market_environment.get_constant(spot_str)
+                base_currency_conversion = market_environment.get_constant(
+                    spot_str)
             # NOTE : This assumes that all spot rates we need are in
             # the market environment. Error handling still needs to be
             # added
             else:
                 spot_str = 'FXRates-' + port_currency + prod_currency
-                base_currency_conversion = 1.0 / market_environment.get_constant(spot_str)
+                base_currency_conversion = 1.0 / market_environment.get_constant(
+                    spot_str)
 
         return base_currency_conversion
 
@@ -263,7 +267,8 @@ if __name__ == '__main__':
     positions = {}
     for i in range(10):
         units = random.uniform(-1000, 1000)
-        p = Stock('Position' + str(i), 'CAD', 'TestCompany' + str(i), 'XXX' + str(i), 'AA')
+        p = Stock('Position' + str(i), 'CAD', 'TestCompany' + str(i),
+                  'XXX' + str(i), 'AA')
         positions[p] = units
     port_test = Portfolio(positions)
     port_test.to_string()

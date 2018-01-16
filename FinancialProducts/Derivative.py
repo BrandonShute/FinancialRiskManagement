@@ -49,7 +49,8 @@ class Derivative(Product):
     # -------------------------------------------------------------------------
     # Object Definition
     # -------------------------------------------------------------------------
-    def __init__(self, ID, currency, start_date, expiration_date, underlying, country=None):
+    def __init__(self, ID, currency, start_date, expiration_date, underlying,
+                 country=None):
         super(Derivative, self).__init__(ID, currency, country)
         self.start_date = start_date
         self.expiration_date = expiration_date
@@ -133,7 +134,9 @@ if __name__ == '__main__':
     ID = 'DerivativeTesting'
     currency = 'USD'
     start_date = dt.datetime.today()
-    expiration_date = dt.datetime(start_date.year + 1, start_date.month, start_date.day, 0, 0)
+    expiration_date = dt.datetime(start_date.year + 1, start_date.month,
+                                  start_date.day, 0, 0)
     underlying = Stock('AAPL', 'USD', 'AAPLE', 'AAPL', 'AA')
-    derivative_test = Derivative(ID, currency, start_date, expiration_date, underlying)
+    derivative_test = Derivative(ID, currency, start_date, expiration_date,
+                                 underlying)
     derivative_test.to_string()

@@ -39,7 +39,8 @@ def generate_PnL_distribution(portfolio, scenarios, mkt_env, static=False):
     PnL_dist = []
     for ii in range(N):
         scenario = scenarios.iloc[ii]
-        mkt_env_new = finScenarios.apply_mkt_scenario(mkt_env, scenario, abs_flag=False)
+        mkt_env_new = finScenarios.apply_mkt_scenario(mkt_env, scenario,
+                                                      abs_flag=False)
         PnL = portfolio.value_product(mkt_env_new) - orig_port_val
         PnL_dist.append(PnL)
 
@@ -77,14 +78,16 @@ def generate_mkt_env_distribution(scenarios, mkt_env):
 
     for ii in range(N):
         scenario = scenarios.iloc[ii]
-        mkt_env_new = finScenarios.apply_mkt_scenario(mkt_env, scenario, abs_flag=False)
+        mkt_env_new = finScenarios.apply_mkt_scenario(mkt_env, scenario,
+                                                      abs_flag=False)
         name = 'Scenario ' + str(ii + 1)
         mkt_env_dict[name] = mkt_env_new
 
     return mkt_env_dict
 
 
-def generate_PnL_distribution_from_mkt_envs(portfolio, mkt_env_dict, mkt_env, static=False):
+def generate_PnL_distribution_from_mkt_envs(portfolio, mkt_env_dict, mkt_env,
+                                            static=False):
     '''
         generate_PnL_distribution_from_mkt_envs(portfolio, mkt_env_dict, mkt_env,
         static=False)
@@ -124,7 +127,8 @@ def generate_PnL_distribution_from_mkt_envs(portfolio, mkt_env_dict, mkt_env, st
     return PnL_dist
 
 
-def calculate_scenario_VaR(portfolio, mkt_env, scenarios, scenario_horizon, VaR_horizon, alpha):
+def calculate_scenario_VaR(portfolio, mkt_env, scenarios, scenario_horizon,
+                           VaR_horizon, alpha):
     '''
         calculateVaR(portfolio, scenarios, scenario_horizon, VaR_horizon,alpha)
 
@@ -195,7 +199,8 @@ def calculate_VaR_from_PnL(PnL_dist, alpha):
     return VaR, ES
 
 
-def backtest_VaR_from_historic(portfolio, mkt_env, VaR, num_days, end_date=None):
+def backtest_VaR_from_historic(portfolio, mkt_env, VaR, num_days,
+                               end_date=None):
     '''
         backtest_VaR_from_historic(portfolio, mkt_env, VaR, num_days)
 
@@ -237,7 +242,8 @@ def backtest_VaR_from_historic(portfolio, mkt_env, VaR, num_days, end_date=None)
     return breachs
 
 
-def plot_market_VaR_dist(PnL_dist, portfolio, mkt_env, scenario_horizon, VaR_horizon, alpha, num_bins, port_name=None):
+def plot_market_VaR_dist(PnL_dist, portfolio, mkt_env, scenario_horizon,
+                         VaR_horizon, alpha, num_bins, port_name=None):
     '''
         calculateVaR(portfolio, scenarios, scenario_horizon, VaR_horizon,alpha)
 
@@ -274,9 +280,11 @@ def plot_market_VaR_dist(PnL_dist, portfolio, mkt_env, scenario_horizon, VaR_hor
     VaR_lbl_str = str(100 * (1 - alpha)) + '% VaR'
     ES_lbl_str = str(100 * (1 - alpha)) + '% ES'
     if port_name == None:
-        title_str = 'Distribution of ' + str(VaR_horizon) + '-day Portfolio Returns'
+        title_str = 'Distribution of ' + str(
+            VaR_horizon) + '-day Portfolio Returns'
     else:
-        title_str = 'Distribution of ' + str(VaR_horizon) + '-day ' + port_name + ' Portfolio Returns'
+        title_str = 'Distribution of ' + str(
+            VaR_horizon) + '-day ' + port_name + ' Portfolio Returns'
 
     # Calculate the Profit and Loss Distribtuion in percentages
     port_value = portfolio.value_product(mkt_env)
@@ -291,8 +299,10 @@ def plot_market_VaR_dist(PnL_dist, portfolio, mkt_env, scenario_horizon, VaR_hor
     plt.xlabel('Portfolio Returns (%)');
     plt.ylabel('Frequency');
     plt.title(title_str);
-    VaR_line, = plt.plot([VaR_perc, VaR_perc], [0, freq_max], color='r', label=VaR_lbl_str);
-    ES_line, = plt.plot([ES_perc, ES_perc], [0, freq_max], color='k', label=ES_lbl_str);
+    VaR_line, = plt.plot([VaR_perc, VaR_perc], [0, freq_max], color='r',
+                         label=VaR_lbl_str);
+    ES_line, = plt.plot([ES_perc, ES_perc], [0, freq_max], color='k',
+                        label=ES_lbl_str);
     plt.legend(handles=[VaR_line, ES_line])
     vals = ax.get_xticks()
     ax.set_xticklabels(['{:2.1f}%'.format(x * 100) for x in vals])

@@ -65,5 +65,7 @@ def calculate_DV01_Convexity(mkt_env, FI_port):
 
     DV01 = (abs(positive_scenario_change) + abs(negative_scenario_chang)) / 2
 
-    convexity = (positive_change_value - 2 * original_value + negitive_change_value) / (0.0001 ** 2)
+    convexity = (
+                        positive_change_value - 2 * original_value + negitive_change_value) / (
+                        0.0001 ** 2)
     return DV01, convexity

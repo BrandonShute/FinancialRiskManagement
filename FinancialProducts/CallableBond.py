@@ -86,18 +86,24 @@ class CallableBond(Bond):
     # -------------------------------------------------------------------------
     # Object Definition
     # -------------------------------------------------------------------------
-    def __init__(self, ID, currency, start_date, maturity_date, face_value, coupon_type, coupon_rate, coupon_freq,
-                 option_details, issuer, ratings, tier, day_count, first_coupon_date=None, industry=None, sector=None,
-                 subsector=None, country=None, rf_ID=None, val_spec=None):
+    def __init__(self, ID, currency, start_date, maturity_date, face_value,
+                 coupon_type, coupon_rate, coupon_freq, option_details, issuer,
+                 ratings, tier, day_count, first_coupon_date=None,
+                 industry=None, sector=None, subsector=None, country=None,
+                 rf_ID=None, val_spec=None):
 
         # Set up the dafault valuation specification for a callable bond
         # to be backwards evolution if no val_spec is specified
         if val_spec == None:
             val_spec = 'BackwardsEvolution'
 
-        super(CallableBond, self).__init__(ID, currency, start_date, maturity_date, face_value, coupon_type,
-                                           coupon_rate, coupon_freq, issuer, ratings, tier, day_count,
-                                           first_coupon_date, industry, sector, subsector, country, rf_ID, val_spec)
+        super(CallableBond, self).__init__(ID, currency, start_date,
+                                           maturity_date, face_value,
+                                           coupon_type, coupon_rate,
+                                           coupon_freq, issuer, ratings, tier,
+                                           day_count, first_coupon_date,
+                                           industry, sector, subsector, country,
+                                           rf_ID, val_spec)
         self.option_details = option_details
 
     # -------------------------------------------------------------------------
@@ -183,9 +189,13 @@ class CallableBond(Bond):
             CallScheduleExerciseType = 'Bermudan'
 
         # calculate price
-        price = valEng.callable_bond_pricing_function(initial_short_rate, mu, vol, FirstCouponDate, CouponFrequency,
-                                                      CouponRate, Face, callSchedule, CallScheduleExerciseType, ValDate,
-                                                      MaturityDate)
+        price = valEng.callable_bond_pricing_function(initial_short_rate, mu,
+                                                      vol, FirstCouponDate,
+                                                      CouponFrequency,
+                                                      CouponRate, Face,
+                                                      callSchedule,
+                                                      CallScheduleExerciseType,
+                                                      ValDate, MaturityDate)
         return price
 
     # -------------------------------------------------------------------------
@@ -206,7 +216,8 @@ class CallableBond(Bond):
         print('Coupon Rate:\t\t\t' + str(self.coupon_rate) + '%')
         print('Coupon Frequency:\t\t' + str(self.coupon_freq) + ' per annum')
         print('Issuer:\t\t\t\t' + self.issuer)
-        print('First Coupon Date:\t\t' + (self.first_coupon_date).strftime(date_str))
+        print('First Coupon Date:\t\t' + (self.first_coupon_date).strftime(
+            date_str))
         for agency in self.ratings:
             print(agency + ':\t\t\t\t' + (self.ratings).get(agency))
         print('Industry:\t\t\t' + self.industry)
@@ -224,7 +235,8 @@ class CallableBond(Bond):
         print(bar)
         for k in self.option_details:
             inner_dict = (self.option_details).get(k)
-            print(k.strftime(date_str) + '\t' + str(inner_dict.get('strike')) + '\t\t' + inner_dict.get(
+            print(k.strftime(date_str) + '\t' + str(
+                inner_dict.get('strike')) + '\t\t' + inner_dict.get(
                 'option_type') + '\t\t' + inner_dict.get('after_feature'))
         print(bar)
 
@@ -239,19 +251,27 @@ if __name__ == '__main__':
     ID = 'FloatingRateBondTesting'
     currency = 'USD'
     start_date = dt.datetime.today()
-    maturity_date = dt.datetime(start_date.year + 1, start_date.month, start_date.day, 0, 0)
+    maturity_date = dt.datetime(start_date.year + 1, start_date.month,
+                                start_date.day, 0, 0)
     face_value = 100
     coupon_type = 'Fixed'
     coupon_rate = 5
     coupon_freq = 2
-    option_details = {dt.datetime(2017, 5, 17): {"strike": 104.125, "option_type": "Call", "after_feature": "True"},
-                      dt.datetime(2018, 5, 17): {"strike": 102.750, "option_type": "Call", "after_feature": "True"},
-                      dt.datetime(2019, 5, 17): {"strike": 101.375, "option_type": "Call", "after_feature": "True"},
-                      dt.datetime(2020, 5, 17): {"strike": 100.000, "option_type": "Call", "after_feature": "True"}}
+    option_details = {
+        dt.datetime(2017, 5, 17): {"strike": 104.125, "option_type": "Call",
+                                   "after_feature": "True"},
+        dt.datetime(2018, 5, 17): {"strike": 102.750, "option_type": "Call",
+                                   "after_feature": "True"},
+        dt.datetime(2019, 5, 17): {"strike": 101.375, "option_type": "Call",
+                                   "after_feature": "True"},
+        dt.datetime(2020, 5, 17): {"strike": 100.000, "option_type": "Call",
+                                   "after_feature": "True"}}
     issuer = 'IBM'
     ratings = {'Moodys': 'Aa', 'S&P': 'AA', 'Fitch': 'A'}
     tier = 'Senior'
     day_count = 'ACT/360'
-    callable_bond_test = CallableBond(ID, currency, start_date, maturity_date, face_value, coupon_type, coupon_rate,
-                                      coupon_freq, option_details, issuer, ratings, tier, day_count)
+    callable_bond_test = CallableBond(ID, currency, start_date, maturity_date,
+                                      face_value, coupon_type, coupon_rate,
+                                      coupon_freq, option_details, issuer,
+                                      ratings, tier, day_count)
     callable_bond_test.to_string()

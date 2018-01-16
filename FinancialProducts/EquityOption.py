@@ -50,11 +50,14 @@ class EquityOption(Option):
     # -------------------------------------------------------------------------
     # Object Definition
     # -------------------------------------------------------------------------
-    def __init__(self, ID, currency, start_date, expiration_date, underlying, strike, option_type, exercise_type,
-                 country=None, rf_ID=None, val_spec=None):
+    def __init__(self, ID, currency, start_date, expiration_date, underlying,
+                 strike, option_type, exercise_type, country=None, rf_ID=None,
+                 val_spec=None):
 
-        super(EquityOption, self).__init__(ID, currency, start_date, expiration_date, underlying, strike, option_type,
-                                           exercise_type, country, rf_ID, val_spec)
+        super(EquityOption, self).__init__(ID, currency, start_date,
+                                           expiration_date, underlying, strike,
+                                           option_type, exercise_type, country,
+                                           rf_ID, val_spec)
 
     # -------------------------------------------------------------------------
     # Method to return the exposure of the underlying
@@ -88,7 +91,8 @@ class EquityOption(Option):
         string2 = 'ImpliedVols-' + currency + '-' + ID_underlying
         volSurface = market_environment.get_surface(string2)
         K_as_percentage_of_stockprice = float(K) / S0
-        sigma = finModels.volatility_surface_interpolation(volSurface, T, K_as_percentage_of_stockprice)
+        sigma = finModels.volatility_surface_interpolation(volSurface, T,
+                                                           K_as_percentage_of_stockprice)
 
         # Dividend Yield
         string3 = 'DividendYields-' + ID_underlying
@@ -96,11 +100,13 @@ class EquityOption(Option):
 
         # Get the delta and gamma of the option
         if ExerciseType == 'European':
-            price_info = valEng.black_scholes_value(S0, K, T, r, sigma, q, option)
+            price_info = valEng.black_scholes_value(S0, K, T, r, sigma, q,
+                                                    option)
         elif ExerciseType == 'American':
             american = True
             N = 100
-            price_info = valEng.binomial_tree(S0, K, r, sigma, T, q, N, option, american)
+            price_info = valEng.binomial_tree(S0, K, r, sigma, T, q, N, option,
+                                              american)
 
         # Get the delta and gamma of the option
         delta = price_info.get('delta')
@@ -143,7 +149,8 @@ class EquityOption(Option):
         string2 = 'ImpliedVols-' + currency + '-' + ID_underlying
         volSurface = market_environment.get_surface(string2)
         K_as_percentage_of_stockprice = float(K) / S0
-        sigma = finModels.volatility_surface_interpolation(volSurface, T, K_as_percentage_of_stockprice)
+        sigma = finModels.volatility_surface_interpolation(volSurface, T,
+                                                           K_as_percentage_of_stockprice)
 
         # Dividend Yield
         string3 = 'DividendYields-' + ID_underlying
@@ -151,12 +158,14 @@ class EquityOption(Option):
 
         # calculate price
         if ExerciseType == 'European':
-            price_info = valEng.black_scholes_value(S0, K, T, r, sigma, q, option)
+            price_info = valEng.black_scholes_value(S0, K, T, r, sigma, q,
+                                                    option)
             price = price_info.get('value')
         if ExerciseType == 'American':
             american = True
             N = 100
-            price_info = valEng.binomial_tree(S0, K, r, sigma, T, q, N, option, american)
+            price_info = valEng.binomial_tree(S0, K, r, sigma, T, q, N, option,
+                                              american)
             price = price_info.get('value')
         return price
 
@@ -172,11 +181,13 @@ if __name__ == '__main__':
     ID = 'EquityOptionTesting'
     currency = 'USD'
     start_date = dt.datetime.today()
-    expiration_date = dt.datetime(start_date.year + 1, start_date.month, start_date.day, 00, 00)
+    expiration_date = dt.datetime(start_date.year + 1, start_date.month,
+                                  start_date.day, 00, 00)
     underlying = Stock('AAPL', 'USD', 'AAPLE', 'AAPL', 'AA')
     strike = 100
     option_type = 'Call'
     exercise_type = 'European'
-    equity_option_test = EquityOption(ID, currency, start_date, expiration_date, underlying, strike, option_type,
+    equity_option_test = EquityOption(ID, currency, start_date, expiration_date,
+                                      underlying, strike, option_type,
                                       exercise_type)
     equity_option_test.to_string()

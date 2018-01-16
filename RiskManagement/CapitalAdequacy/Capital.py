@@ -2,15 +2,18 @@ import pandas as pd
 import FinancialProducts as finProds
 
 
-def calculate_market_risk_capital(tot_mkt_VaR, tot_SVaR, tot_cred_VaR, adjustment_factor):
-    MarketRiskCapital = -((tot_mkt_VaR + tot_SVaR) * adjustment_factor + tot_cred_VaR)
+def calculate_market_risk_capital(tot_mkt_VaR, tot_SVaR, tot_cred_VaR,
+                                  adjustment_factor):
+    MarketRiskCapital = -(
+            (tot_mkt_VaR + tot_SVaR) * adjustment_factor + tot_cred_VaR)
     return MarketRiskCapital
 
 
 def calculate_counterparty_credit_risk_capital(tot_port, mkt_env):
     RWValuesGov = [0, 0, 0.2, 0.2, 0.5, 0.5, 1, 1, 1, 1, 1]
     RWValuesCorp = [0.2, 0.2, 0.2, 0.5, 1, 1, 1, 1, 1.5, 1, 1]
-    RatingName = ['AAA', 'AAu', 'AA', 'A', 'BBB+', 'BBB', 'BB+', 'BB', 'B', 'NR', 'N.A.']
+    RatingName = ['AAA', 'AAu', 'AA', 'A', 'BBB+', 'BBB', 'BB+', 'BB', 'B',
+                  'NR', 'N.A.']
     RWGov = pd.DataFrame([RWValuesGov], columns=RatingName)
     RWCorp = pd.DataFrame([RWValuesCorp], columns=RatingName)
 
@@ -22,7 +25,8 @@ def calculate_counterparty_credit_risk_capital(tot_port, mkt_env):
 
     for k, v in tot_port.positions.items():
         RWA = 0
-        if isinstance(k, finProds.Option) or isinstance(k, finProds.CreditDefaultSwap):
+        if isinstance(k, finProds.Option) or isinstance(k,
+                                                        finProds.CreditDefaultSwap):
             add_on_factor = 0
             if isinstance(k, finProds.Option):
                 add_on_factor = 0.06
@@ -43,7 +47,8 @@ def calculate_counterparty_credit_risk_capital(tot_port, mkt_env):
     return RWA, counterparty_credit_risk_capital__s_a
 
 
-def calculate_regulatory_capital(market_risk_capital, counterparty_credit_risk_capital):
+def calculate_regulatory_capital(market_risk_capital,
+                                 counterparty_credit_risk_capital):
     RegulatoryCapital = market_risk_capital + counterparty_credit_risk_capital
 
     return RegulatoryCapital

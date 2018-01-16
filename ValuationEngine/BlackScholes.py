@@ -10,7 +10,8 @@ from math import log, sqrt, exp
 from scipy import stats
 
 
-def black_scholes_value(index_price, strike, time, risk_free, sigma, div_yield, option_type):
+def black_scholes_value(index_price, strike, time, risk_free, sigma, div_yield,
+                        option_type):
     '''
     Valuation of European option and the Greeks in BSM model.
     Analytical formula.
@@ -38,7 +39,9 @@ def black_scholes_value(index_price, strike, time, risk_free, sigma, div_yield, 
 
     index_price = float(index_price)
 
-    d_plus = (log(index_price / strike) + (risk_free - div_yield + 0.5 * sigma ** 2) * time) / (sigma * sqrt(time))
+    d_plus = (log(index_price / strike) + (
+            risk_free - div_yield + 0.5 * sigma ** 2) * time) / (
+                     sigma * sqrt(time))
     d_minus = d_plus - (sigma * sqrt(time))
 
     discount_factor_risk_free = exp(-risk_free * time)
@@ -59,20 +62,26 @@ def black_scholes_value(index_price, strike, time, risk_free, sigma, div_yield, 
 
     delta = eta * discount_factor_div_yield * eta_norm_cdf_d_plus
 
-    gamma = discount_factor_div_yield / (index_price * sigma * sqrt(time)) * norm_pdf_d_plus
+    gamma = discount_factor_div_yield / (
+            index_price * sigma * sqrt(time)) * norm_pdf_d_plus
 
-    theta = (-(index_price * sigma * discount_factor_div_yield / (2 * sqrt(time)) * norm_pdf_d_plus) - eta * (
-            risk_free * strike * discount_factor_risk_free * eta_norm_cdf_d_minus + div_yield * index_price * discount_factor_div_yield * eta_norm_cdf_d_plus) / (
-            days_in_year * time))
+    theta = (-(index_price * sigma * discount_factor_div_yield / (
+            2 * sqrt(time)) * norm_pdf_d_plus) - eta * (
+                     risk_free * strike * discount_factor_risk_free * eta_norm_cdf_d_minus + div_yield * index_price * discount_factor_div_yield * eta_norm_cdf_d_plus) / (
+                     days_in_year * time))
 
-    rho = eta * (0.01 * strike * time * discount_factor_risk_free * eta_norm_cdf_d_minus)
+    rho = eta * (
+            0.01 * strike * time * discount_factor_risk_free * eta_norm_cdf_d_minus)
 
-    vega = 0.01 * index_price * discount_factor_div_yield * sqrt(time) * norm_pdf_d_plus
+    vega = 0.01 * index_price * discount_factor_div_yield * sqrt(
+        time) * norm_pdf_d_plus
 
-    return {'value': value, 'delta': delta, 'theta': theta, 'rho': rho, 'vega': vega, 'gamma': gamma}
+    return {'value': value, 'delta': delta, 'theta': theta, 'rho': rho,
+            'vega': vega, 'gamma': gamma}
 
 
-def calculate_implied_vol(index_price, strike, time, risk_free, option_price, sigma_est, div_yield, option_type,
+def calculate_implied_vol(index_price, strike, time, risk_free, option_price,
+                          sigma_est, div_yield, option_type,
                           max_iterations=10000):
     '''
     Parameters
@@ -96,7 +105,8 @@ def calculate_implied_vol(index_price, strike, time, risk_free, option_price, si
     TOLERENCE = 0.000000000000001
 
     for i in range(max_iterations):
-        bsm_result = black_scholes_value(index_price, strike, time, risk_free, sigma_est, div_yield, option_type)
+        bsm_result = black_scholes_value(index_price, strike, time, risk_free,
+                                         sigma_est, div_yield, option_type)
 
         price_difference = bsm_result['value'] - option_price
         d_sigma = price_difference / (100 * bsm_result['vega'])
@@ -109,11 +119,11 @@ def calculate_implied_vol(index_price, strike, time, risk_free, option_price, si
         sigma_est -= d_sigma
         sigma_est = max(sigma_est, 0)
 
-
     return sigma_est
 
 
-def get_implied_strike_from_implied_vol(index_price, sigma_implied, time, risk_free, div_yield, delta):
+def get_implied_strike_from_implied_vol(index_price, sigma_implied, time,
+                                        risk_free, div_yield, delta):
     '''
     Parameters
     ==========
@@ -129,8 +139,9 @@ def get_implied_strike_from_implied_vol(index_price, sigma_implied, time, risk_f
     imp_strike : The implied strike calculated from delta
     '''
 
-    denom = exp(stats.norm.ppf(delta * exp(div_yield * time)) * sigma_implied * sqrt(time) - (
-            risk_free - div_yield - 0.5 * (sigma_implied ** 2)) * time)
+    denom = exp(
+        stats.norm.ppf(delta * exp(div_yield * time)) * sigma_implied * sqrt(
+            time) - (risk_free - div_yield - 0.5 * (sigma_implied ** 2)) * time)
 
     imp_strike = index_price / denom
 

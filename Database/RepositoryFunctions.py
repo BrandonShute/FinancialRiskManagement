@@ -9,6 +9,7 @@ import numpy as np
 import FinancialProducts as finProds
 import MarketData as mktData
 
+
 # TODO This now needs to be linked to a database when it is setup
 def populate_portfolio_from_repository(port_currency):
     # Paths where the portfolio repository is stored
@@ -49,7 +50,8 @@ def populate_portfolio_from_repository(port_currency):
     # Import each of the sheets
     product_data_dict = {}
     for s in product_sheets:
-        temp_data = pd.read_excel(path_w_file, sheetname=s, header=0, true_values=['True'], false_values=['False'])
+        temp_data = pd.read_excel(path_w_file, sheetname=s, header=0,
+                                  true_values=['True'], false_values=['False'])
         mask = temp_data['Status'] == 'Open'
         temp_data = temp_data.loc[mask]
         temp_data = temp_data.reset_index()
@@ -58,7 +60,8 @@ def populate_portfolio_from_repository(port_currency):
 
     derivative_data_dict = {}
     for s in derivative_sheets:
-        temp_data = pd.read_excel(path_w_file, sheetname=s, header=0, true_values=['True'], false_values=['False'])
+        temp_data = pd.read_excel(path_w_file, sheetname=s, header=0,
+                                  true_values=['True'], false_values=['False'])
         mask = temp_data['Status'] == 'Open'
         temp_data = temp_data.loc[mask]
         temp_data = temp_data.reset_index()
@@ -134,31 +137,60 @@ def populate_portfolio_from_repository(port_currency):
 
                 # Create the product depending on the product type of the bond
                 if product_type == 'ZeroCouponBond':
-                    bond_temp = finProd.sZeroCouponBond(ID, currency, start_date, maturity_date, face_value, issuer,
-                                                        ratings, tier, day_count, industry, sector, subsector, country)
+                    bond_temp = finProd.sZeroCouponBond(ID, currency,
+                                                        start_date,
+                                                        maturity_date,
+                                                        face_value, issuer,
+                                                        ratings, tier,
+                                                        day_count, industry,
+                                                        sector, subsector,
+                                                        country)
 
                 elif product_type == 'FixedRateBond':
-                    bond_temp = finProds.FixedRateBond(ID, currency, start_date, maturity_date, face_value, coupon_rate,
-                                                       coupon_freq, issuer, ratings, tier, day_count, first_coupon_date,
-                                                       industry, sector, subsector, country)
+                    bond_temp = finProds.FixedRateBond(ID, currency, start_date,
+                                                       maturity_date,
+                                                       face_value, coupon_rate,
+                                                       coupon_freq, issuer,
+                                                       ratings, tier, day_count,
+                                                       first_coupon_date,
+                                                       industry, sector,
+                                                       subsector, country)
 
                 elif product_type == 'FloatingRateBond':
-                    bond_temp = finProds.FloatingRateBond(ID, currency, start_date, maturity_date, face_value,
-                                                          coupon_rate, coupon_freq, floating_ref, floating_spread,
-                                                          issuer, ratings, tier, day_count, first_coupon_date, industry,
-                                                          sector, subsector, country)
+                    bond_temp = finProds.FloatingRateBond(ID, currency,
+                                                          start_date,
+                                                          maturity_date,
+                                                          face_value,
+                                                          coupon_rate,
+                                                          coupon_freq,
+                                                          floating_ref,
+                                                          floating_spread,
+                                                          issuer, ratings, tier,
+                                                          day_count,
+                                                          first_coupon_date,
+                                                          industry, sector,
+                                                          subsector, country)
 
                 elif product_type == 'CallableBond':
-                    bond_temp = finProds.CallableBond(ID, currency, start_date, maturity_date, face_value, coupon_type,
-                                                      coupon_rate, coupon_freq, option_details, issuer, ratings, tier,
-                                                      day_count, first_coupon_date, industry, sector, subsector,
-                                                      country)
+                    bond_temp = finProds.CallableBond(ID, currency, start_date,
+                                                      maturity_date, face_value,
+                                                      coupon_type, coupon_rate,
+                                                      coupon_freq,
+                                                      option_details, issuer,
+                                                      ratings, tier, day_count,
+                                                      first_coupon_date,
+                                                      industry, sector,
+                                                      subsector, country)
 
 
                 else:
-                    bond_temp = finProds.Bond(ID, currency, start_date, maturity_date, face_value, coupon_type,
-                                              coupon_rate, coupon_freq, issuer, ratings, tier, day_count,
-                                              first_coupon_date, industry, sector, subsector, country)
+                    bond_temp = finProds.Bond(ID, currency, start_date,
+                                              maturity_date, face_value,
+                                              coupon_type, coupon_rate,
+                                              coupon_freq, issuer, ratings,
+                                              tier, day_count,
+                                              first_coupon_date, industry,
+                                              sector, subsector, country)
 
                 # Create the bond and add it to the products dictionary
                 if underlying_bool == True:
@@ -185,8 +217,9 @@ def populate_portfolio_from_repository(port_currency):
                 underlying_bool = data['Underlying'][i]
 
                 # Create the stock and add it to the products dictionary
-                stock_temp = finProds.Stock(ID, currency, company_name, ticker, ratings, industry, sector, subsector,
-                                            country, CUSIP)
+                stock_temp = finProds.Stock(ID, currency, company_name, ticker,
+                                            ratings, industry, sector,
+                                            subsector, country, CUSIP)
 
                 if underlying_bool == True:
                     underlying_products[ID] = stock_temp
@@ -228,13 +261,18 @@ def populate_portfolio_from_repository(port_currency):
 
                 # Create the product depending on the product type of the option
                 if product_type == 'EquityOption':
-                    option_temp = finProds.EquityOption(ID, currency, start_date, expiration_date, underlying, strike,
-                                                        option_type, exercise_type, country)
+                    option_temp = finProds.EquityOption(ID, currency,
+                                                        start_date,
+                                                        expiration_date,
+                                                        underlying, strike,
+                                                        option_type,
+                                                        exercise_type, country)
 
 
                 else:
-                    option_temp = finProds.Option(ID, currency, start_date, expiration_date, underlying, strike,
-                                                  option_type, country)
+                    option_temp = finProds.Option(ID, currency, start_date,
+                                                  expiration_date, underlying,
+                                                  strike, option_type, country)
 
                 # Add the option to the derivatives dictionary
                 derivatives[option_temp] = position
@@ -261,10 +299,16 @@ def populate_portfolio_from_repository(port_currency):
                 subsector = data['Subsector'][i]
 
                 # Create the CDS and add it to the derivatives dictionary
-                CDS_temp = finProds.CreditDefaultSwap(ID, currency, start_date, expiration_date, underlying, notional,
-                                                      counterparty, pmt_freq, coupon, contract_spread,
-                                                      accrued_on_default, discount_curve, ratings, tier, day_count,
-                                                      industry, sector, subsector, country)
+                CDS_temp = finProds.CreditDefaultSwap(ID, currency, start_date,
+                                                      expiration_date,
+                                                      underlying, notional,
+                                                      counterparty, pmt_freq,
+                                                      coupon, contract_spread,
+                                                      accrued_on_default,
+                                                      discount_curve, ratings,
+                                                      tier, day_count, industry,
+                                                      sector, subsector,
+                                                      country)
                 derivatives[CDS_temp] = position
                 continue
 
@@ -331,7 +375,8 @@ def populate_mkt_env_from_repository(val_date):
     swap_disc = {'USD': swap_disc_USD, 'EUR': swap_disc_EUR}
 
     # Credit Spreads by Rating
-    spreads_by_rating = pd.ExcelFile(path + SPREADS_RATING_FILE + REPOSITORY_FILETYPE)
+    spreads_by_rating = pd.ExcelFile(
+        path + SPREADS_RATING_FILE + REPOSITORY_FILETYPE)
     spreads_by_rating_USD = spreads_by_rating.parse('USD')
     spreads_by_rating_CAD = spreads_by_rating.parse('CAD')
     spreads_by_rating_EUR = spreads_by_rating.parse('EUR')
@@ -341,7 +386,9 @@ def populate_mkt_env_from_repository(val_date):
     spreads_by_rating_USD = spreads_by_rating_USD / 100.0
     spreads_by_rating_CAD = spreads_by_rating_CAD / 100.0
     spreads_by_rating_EUR = spreads_by_rating_EUR / 100.0
-    spreads_by_rating = {'USD': spreads_by_rating_USD, 'CAD': spreads_by_rating_CAD, 'EUR': spreads_by_rating_EUR}
+    spreads_by_rating = {'USD': spreads_by_rating_USD,
+                         'CAD': spreads_by_rating_CAD,
+                         'EUR': spreads_by_rating_EUR}
 
     # Recovery Rates
     recovery_rates = pd.ExcelFile(path + RECOVERY_FILE + REPOSITORY_FILETYPE)
@@ -377,11 +424,14 @@ def populate_mkt_env_from_repository(val_date):
     vol_surfaces_CAT.index = temp_index
     vol_surfaces_BA = vol_surfaces_BA / 100.0
     vol_surfaces_CAT = vol_surfaces_CAT / 100.0
-    vol_surfaces = {'USD-IQT2565239': vol_surfaces_BA, 'USD-IQT2545284': vol_surfaces_CAT}
+    vol_surfaces = {'USD-IQT2565239': vol_surfaces_BA,
+                    'USD-IQT2545284': vol_surfaces_CAT}
 
     # Idiosyncratic Hazard Rates
-    idiosyncratic_hazard_rates = pd.ExcelFile(path + HAZARD_FILE + REPOSITORY_FILETYPE)
-    idiosyncratic_hazard_rates = idiosyncratic_hazard_rates.parse('IdiosyncraticHazardRates')
+    idiosyncratic_hazard_rates = pd.ExcelFile(
+        path + HAZARD_FILE + REPOSITORY_FILETYPE)
+    idiosyncratic_hazard_rates = idiosyncratic_hazard_rates.parse(
+        'IdiosyncraticHazardRates')
     idiosyncratic_hazard_rates = idiosyncratic_hazard_rates.set_index('Date')
 
     # Government Yields
@@ -395,7 +445,8 @@ def populate_mkt_env_from_repository(val_date):
     gov_yields_USD = gov_yields_USD / 100.0
     gov_yields_CAD = gov_yields_CAD / 100.0
     gov_yields_EUR = gov_yields_EUR / 100.0
-    gov_curves = {'USD': gov_yields_USD, 'CAD': gov_yields_CAD, 'EUR': gov_yields_EUR}
+    gov_curves = {'USD': gov_yields_USD, 'CAD': gov_yields_CAD,
+                  'EUR': gov_yields_EUR}
 
     # FX Rates
     FX_rates = pd.ExcelFile(path + FX_RATES_FILE + REPOSITORY_FILETYPE)
@@ -408,34 +459,40 @@ def populate_mkt_env_from_repository(val_date):
     div_yields = div_yields.set_index('Date')
 
     # Default Probabilities
-    dflt_probs = pd.ExcelFile(path + DFLT_PROBABILITIES_FILE + REPOSITORY_FILETYPE)
+    dflt_probs = pd.ExcelFile(
+        path + DFLT_PROBABILITIES_FILE + REPOSITORY_FILETYPE)
     dflt_probs = dflt_probs.parse('DefaultProbabilities')
     dflt_probs = dflt_probs.set_index('Year')
     dflt_probs = dflt_probs / 100.0
 
     # Hazard Rates by Rating
-    hazard_rates_rating = pd.ExcelFile(path + DFLT_PROBABILITIES_FILE + REPOSITORY_FILETYPE)
+    hazard_rates_rating = pd.ExcelFile(
+        path + DFLT_PROBABILITIES_FILE + REPOSITORY_FILETYPE)
     hazard_rates_rating = hazard_rates_rating.parse('HazardRates')
     hazard_rates_rating = hazard_rates_rating.set_index('Year')
 
     # Credit Transition Matrix
-    credit_transition = pd.ExcelFile(path + CREDIT_TRANSITION_FILE + REPOSITORY_FILETYPE)
+    credit_transition = pd.ExcelFile(
+        path + CREDIT_TRANSITION_FILE + REPOSITORY_FILETYPE)
     credit_transition = credit_transition.parse('CreditTransition')
     credit_transition = credit_transition.set_index('From/To')
     credit_transition = credit_transition / 100.0
 
     # Idiosyncratic Spreads
-    idiosyncratic_spreads = pd.ExcelFile(path + IDIOSYNCRATIC_FILE + REPOSITORY_FILETYPE)
+    idiosyncratic_spreads = pd.ExcelFile(
+        path + IDIOSYNCRATIC_FILE + REPOSITORY_FILETYPE)
     idiosyncratic_spreads = idiosyncratic_spreads.parse('IdiosyncraticSpread')
     idiosyncratic_spreads = idiosyncratic_spreads.set_index('Date')
 
     # Factor Correlation File
-    factor_corr = pd.ExcelFile(path + FACTOR_CORRELATION_FILE + REPOSITORY_FILETYPE)
+    factor_corr = pd.ExcelFile(
+        path + FACTOR_CORRELATION_FILE + REPOSITORY_FILETYPE)
     factor_corr = factor_corr.parse('Sheet1')
     factor_corr = factor_corr.set_index('Date')
     col_names = list(factor_corr.columns.values)
     factor_corr = np.nan_to_num(factor_corr)
-    factor_corr = factor_corr + np.transpose(factor_corr) - np.identity(len(factor_corr))
+    factor_corr = factor_corr + np.transpose(factor_corr) - np.identity(
+        len(factor_corr))
     factor_corr = pd.DataFrame(factor_corr, index=col_names, columns=col_names)
 
     # Factor Volatility File

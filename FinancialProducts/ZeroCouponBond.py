@@ -52,11 +52,15 @@ class ZeroCouponBond(Bond):
     # -------------------------------------------------------------------------
     # Object Definition
     # -------------------------------------------------------------------------
-    def __init__(self, ID, currency, start_date, maturity_date, face_value, issuer, ratings, tier, day_count,
-                 industry=None, sector=None, subsector=None, country=None, rf_ID=None, val_spec=None):
-        super(ZeroCouponBond, self).__init__(ID, currency, start_date, maturity_date, face_value, 'None', 0, 0, issuer,
-                                             ratings, tier, day_count, maturity_date, industry, sector, subsector,
-                                             country, rf_ID, val_spec)
+    def __init__(self, ID, currency, start_date, maturity_date, face_value,
+                 issuer, ratings, tier, day_count, industry=None, sector=None,
+                 subsector=None, country=None, rf_ID=None, val_spec=None):
+        super(ZeroCouponBond, self).__init__(ID, currency, start_date,
+                                             maturity_date, face_value, 'None',
+                                             0, 0, issuer, ratings, tier,
+                                             day_count, maturity_date, industry,
+                                             sector, subsector, country, rf_ID,
+                                             val_spec)
 
 
 # -----------------------------------------------------------------------------
@@ -70,13 +74,16 @@ if __name__ == '__main__':
     currency = 'USD'
     country = 'Canada'
     start_date = dt.datetime.today()
-    maturity_date = dt.datetime(start_date.year + 1, start_date.month, start_date.day, 0, 0)
+    maturity_date = dt.datetime(start_date.year + 1, start_date.month,
+                                start_date.day, 0, 0)
     face_value = 100
     issuer = 'IBM'
     ratings = {'Moodys': 'Aa', 'S&P': 'AA', 'Fitch': 'A'}
     tier = 'Junior'
     day_count = '30/360'
     rf_ID = 'Govt'
-    zero_coupon_bond_test = ZeroCouponBond(ID, currency, start_date, maturity_date, face_value, issuer, ratings, tier,
-                                           day_count, rf_ID=rf_ID)
+    zero_coupon_bond_test = ZeroCouponBond(ID, currency, start_date,
+                                           maturity_date, face_value, issuer,
+                                           ratings, tier, day_count,
+                                           rf_ID=rf_ID)
     zero_coupon_bond_test.to_string()
