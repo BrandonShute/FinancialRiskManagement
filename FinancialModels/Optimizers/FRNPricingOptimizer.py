@@ -1,5 +1,5 @@
 from dateutil.relativedelta import relativedelta
-from InterpolatedYieldCurve import interpolated_yield_curve
+from Interpolators.InterpolatedYieldCurve import interpolated_yield_curve
 import numpy as np
 import pandas as pd
 

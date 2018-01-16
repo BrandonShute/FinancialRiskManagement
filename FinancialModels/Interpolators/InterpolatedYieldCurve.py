@@ -1,3 +1,4 @@
+# TODO: This method should be added to the BlackVolatilitySurface when it's created
 def interpolated_yield_curve(input_yield_curve, payment_timing):
     # The inputted yield curve will be a pandas dataframe with row of terms and corresponding row of rates.
     # We assume the yield curve will be generic, i.e. the key rates for certain curves will be different from others.
