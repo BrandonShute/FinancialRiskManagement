@@ -21,6 +21,11 @@ class BilinearInterpolation(object):
         z11, z12 = values[j][i:i + 2]
         z21, z22 = values[j + 1][i:i + 2]
 
-        return (z11 * (x2 - x) * (y2 - y) + z21 * (x - x1) * (y2 - y) + z12 * (
-                x2 - x) * (y - y1) + z22 * (x - x1) * (y - y1)) / (
-                       (x2 - x1) * (y2 - y1))
+        denominator = (x2 - x1) * (y2 - y1)
+
+        weight11 = ((x2 - x) * (y2 - y)) / denominator
+        weight21 = ((x - x1) * (y2 - y)) / denominator
+        weight12 = ((x2 - x) * (y - y1)) / denominator
+        weight22 = ((x - x1) * (y - y1)) / denominator
+
+        return z11 * weight11 + z21 * weight21 + z12 * weight12 + z22 * weight22
