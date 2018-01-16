@@ -112,13 +112,11 @@ def marginal_VaR_from_total_port(portfolio, mkt_env, scenarios, alpha):
     row_idx = 0
     for ii in range(N):
         scenario = scenarios.iloc[ii]
-        mkt_env_new = finScenarios.apply_mkt_scenario(mkt_env, scenario,
-                                                      abs_flag=False)
+        mkt_env_new = finScenarios.apply_mkt_scenario(mkt_env, scenario, abs_flag=False)
         for k, v in portfolio.positions.items():
             old_price = old_vals[row_idx]
 
-            new_FX_rate = k.get_base_currency_conversion(mkt_env_new,
-                                                         port_currency)
+            new_FX_rate = k.get_base_currency_conversion(mkt_env_new, port_currency)
             new_val = k.value_product(mkt_env_new)
             new_price = new_val * v * new_FX_rate
 
