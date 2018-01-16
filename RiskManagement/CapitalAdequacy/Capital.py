@@ -10,41 +10,53 @@ def calculate_market_risk_capital(tot_mkt_VaR, tot_SVaR, tot_cred_VaR,
 
 
 def calculate_counterparty_credit_risk_capital(tot_port, mkt_env):
-    RWValuesGov = [0, 0, 0.2, 0.2, 0.5, 0.5, 1, 1, 1, 1, 1]
-    RWValuesCorp = [0.2, 0.2, 0.2, 0.5, 1, 1, 1, 1, 1.5, 1, 1]
-    RatingName = ['AAA', 'AAu', 'AA', 'A', 'BBB+', 'BBB', 'BB+', 'BB', 'B',
-                  'NR', 'N.A.']
-    RWGov = pd.DataFrame([RWValuesGov], columns=RatingName)
-    RWCorp = pd.DataFrame([RWValuesCorp], columns=RatingName)
+    defualt_rating_provider = 'S&P'
 
-    counterparty_credit_risk_capital__s_a = 0
+    rating_names = ['AAA', 'AAu', 'AA', 'A', 'BBB+', 'BBB', 'BB+', 'BB', 'B',
+                    'NR', 'N.A.']
+
+    gov_risk_weighting = [0, 0, 0.2, 0.2, 0.5, 0.5, 1, 1, 1, 1, 1]
+    corporation_risk_weighting = [0.2, 0.2, 0.2, 0.5, 1, 1, 1, 1, 1.5, 1, 1]
+
+    gov_risk_weighting_df = pd.DataFrame([gov_risk_weighting],
+                                         columns=rating_names)
+    corporation_risk_weighting_df = pd.DataFrame([corporation_risk_weighting],
+                                                 columns=rating_names)
+
+    counterparty_credit_risk_capital = 0
 
     tot_port.remove_portfolio_nesting()
 
     RWA = {}
 
-    for k, v in tot_port.positions.items():
-        RWA = 0
-        if isinstance(k, finProds.Option) or isinstance(k,
-                                                        finProds.CreditDefaultSwap):
-            add_on_factor = 0
-            if isinstance(k, finProds.Option):
-                add_on_factor = 0.06
-                rating = k.get_underlying().get_rating('S&P')
-                industry = k.get_underlying().get_industry()
-            if isinstance(k, finProds.CreditDefaultSwap):
-                rating = k.get_rating('S&P')
-                industry = k.get_industry()
-                if v > 0:
-                    add_on_factor = 0.075  # add on factor for CDS protection buyer
-            mtm = max(k.value_product(mkt_env), 0)
-            if industry == 'Government':
-                RWA[k] = v * RWGov[rating][0] * mtm * (1 + add_on_factor)
-            else:
-                RWA[k] = v * RWCorp[rating][0] * mtm * (1 + add_on_factor)
-        counterparty_credit_risk_capital__s_a += RWA * 0.08
+    for product, units in tot_port.positions.items():
+        RWA = 0.0
+        add_on_factor = 0.0
 
-    return RWA, counterparty_credit_risk_capital__s_a
+        if isinstance(product, finProds.Option):
+            add_on_factor = 0.06
+            rating = product.get_underlying().get_rating(
+                defualt_rating_provider)
+            industry = product.get_underlying().get_industry()
+        if isinstance(product, finProds.CreditDefaultSwap):
+            rating = product.get_rating(defualt_rating_provider)
+            industry = product.get_industry()
+            # add on factor for CDS protection buyer (0 for selling
+            if units > 0:
+                add_on_factor = 0.075
+
+        mtm = max(product.value_product(mkt_env), 0)
+
+        if industry == 'Government':
+            RWA[product] = units * gov_risk_weighting_df[rating][0] * mtm * (
+                    1 + add_on_factor)
+        else:
+            RWA[product] = units * corporation_risk_weighting_df[rating][
+                0] * mtm * (1 + add_on_factor)
+
+        counterparty_credit_risk_capital += RWA * 0.08
+
+    return RWA, counterparty_credit_risk_capital
 
 
 def calculate_regulatory_capital(market_risk_capital,
