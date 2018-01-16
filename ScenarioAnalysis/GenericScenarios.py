@@ -18,7 +18,7 @@ def apply_mkt_shock(mkt_env, strspec, change, abs_flag=True):
     ==========
     market_env : market_environment object
         a market environment object of current market data to apply the
-        scenerios
+        scenarios
     strspec : string input
          input should be consistent with format in market data repository
          e.g. "Curves-RiskFree-CDOR-CAD-0.25"
@@ -130,7 +130,7 @@ def apply_mkt_scenario(mkt_env, scenario, abs_flag=True):
     ==========
     market_env : market_environment object
         a market environment object of current market data to apply the
-        scenerios
+        scenarios
     scenario : dataframe
          a dataframe of relative chnages to risk factors
     abs_flag : Boolean
