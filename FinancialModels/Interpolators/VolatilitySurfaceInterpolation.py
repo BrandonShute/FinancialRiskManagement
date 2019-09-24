@@ -1,4 +1,4 @@
-from Interpolators.BilinearInterpolation import BilinearInterpolation
+from Interpolators.BilinearInterpolator import BilinearInterpolator
 
 
 # TODO: This method should be added to the BlackVolatilitySurface when it's created
@@ -11,7 +11,7 @@ def volatility_surface_interpolation(volatility_surface, target_maturity,
 
     # TODO: Add other types of interpolation methods
     if interp_method.lower() == 'bilinearinterpolation':
-        interpolator = BilinearInterpolation(maturities, strike_as_percentages,
+        interpolator = BilinearInterpolator(maturities, strike_as_percentages,
                                              volatility_surface)
 
     return interpolator(target_maturity, target_strike)

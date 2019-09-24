@@ -1,7 +1,7 @@
 from bisect import bisect_left
 
 
-class BilinearInterpolation(object):
+class BilinearInterpolator(object):
     """ Bilinear interpolation. """
 
     def __init__(self, x_index, y_index, values):
